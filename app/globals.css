@@ -19,6 +19,8 @@ body {
   --primary: #e9b44c;
 
   --black: #0f0f0f;
+
+  --hero-background: #e6ecf1;
 }
 
 @theme inline {
@@ -36,4 +38,6 @@ body {
   --color-primary-800: var(--primary-800);
 
   --color-black: var(--black);
+
+  --color-hero: var(--hero-background);
 }
