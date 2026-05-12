@@ -68,6 +68,7 @@ const Features = () => {
                 height={346}
                 src={"/images/recommendations.png"}
                 alt={"Dashboard showing your books."}
+                className="w-full h-full object-cover"
               />
             </div>
           </article>
