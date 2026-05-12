@@ -1,3 +1,4 @@
+import AIfeatures from "@/components/AIfeatures";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 
@@ -7,6 +8,7 @@ export default function Home() {
       <Hero />
       <div className="px-12.5 max-sm:px-5">
         <Features />
+        <AIfeatures />
       </div>
     </main>
   );

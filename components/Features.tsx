@@ -2,21 +2,21 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <section className="py-12" aria-labelledby="features-heading">
+    <section className="py-12 max-sm:py-10" aria-labelledby="features-heading">
       <h2
         className="text-center text-[39px] max-sm:text-[31px] font-medium leading-tight"
         id="features-heading"
       >
         Everything a reader needs. Nothing they don&apos;t.
       </h2>
-      <div className="mt-12">
+      <div className="mt-12 max-sm:mt-6">
         {/* FIRST ROW  */}
         <article className="flex justify-between bg-primary-350 gap-9 max-lg:flex-col">
           <div className="bg-primary-350">
             <h3 className="text-[25px] pl-4 max-sm:text-xl mt-6">
               Your Book Tracker
             </h3>
-            <p className="leading-5.25 mt-3 pl-4">
+            <p className="leading-5.25 mt-3 pl-4 max-w-139.75">
               Every book you&apos;ve read, are reading, or can&apos;t wait to
               start. All in one place. Log it, update it, done.
             </p>
