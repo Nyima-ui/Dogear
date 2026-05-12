@@ -4,7 +4,7 @@ const Features = () => {
   return (
     <section className="py-12 max-sm:py-10" aria-labelledby="features-heading">
       <h2
-        className="text-center text-[39px] max-sm:text-[31px] font-medium leading-tight"
+        className="text-center text-[39px] max-sm:text-[25px] font-medium leading-tight"
         id="features-heading"
       >
         Everything a reader needs. Nothing they don&apos;t.
