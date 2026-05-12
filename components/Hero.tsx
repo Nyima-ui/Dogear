@@ -3,7 +3,7 @@ import Button from "./Button";
 
 const Hero = () => {
   return (
-    <section className="bg-hero flex flex-col items-center py-12 px-5">
+    <section className="bg-hero flex flex-col items-center py-12 px-12.5 max-sm:px-5" aria-label="Hero">
       <div className="max-w-185 flex flex-col items-center">
         <h1 className="text-[48px] font-medium leading-12.5 text-center max-sm:text-[31px] max-sm:leading-9">
           One Place to Track Every Book You&apos;ve Ever Read.
@@ -29,15 +29,15 @@ const Hero = () => {
           width={1171}
           height={58}
           src={"/svgs/hero-image.svg"}
-          alt={"Hero image"}
-          className="relative z-10 max-md:hidden"
+          alt={"A table showing how many books you have read and are currently reading."}
+          className="relative z-10 max-sm:hidden"
         />
         <Image
           width={481}
           height={177}
           src={"/svgs/hero-image--m.svg"}
-          alt={"Hero image"}
-          className="relative z-10 hidden max-md:block"
+          alt={"A table showing how many books you have read and are currently reading."}
+          className="relative z-10 hidden max-sm:block shadow-lg shadow-hero"
         />
         <Image
           width={179}
