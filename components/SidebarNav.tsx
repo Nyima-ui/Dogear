@@ -4,9 +4,14 @@ import { Table2, Sparkles, PanelLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { titleMap } from "@/lib/constants";
 
 const SidebarNav = () => {
   const [open, setOpen] = useState(false);
+  const pathName = usePathname();
+  const title = titleMap[pathName] ?? "Dashboard";
+
   return (
     <>
       {/* DESKTOP SIDEBAR NAVIGATION */}
@@ -20,8 +25,9 @@ const SidebarNav = () => {
             height={40}
             src={"/svgs/books.svg"}
             alt={"Books icon"}
+            className="select-none"
           />
-          <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+3px)] text-nowrap hidden group-hover:block">
+          <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+3px)] text-nowrap hidden group-hover:block select-none">
             Home
           </span>
         </Link>
@@ -52,13 +58,16 @@ const SidebarNav = () => {
       </nav>
 
       {/* MOBILE SIDEBAR NAVIGATION  */}
-      <button
-        className="p-1 rounded-md cursor-pointer hover:bg-primary-600 hidden max-md:block"
-        onClick={() => setOpen(true)}
-        aria-label="Open navigation"
-      >
-        <PanelLeft strokeWidth={1.7} color="#5e5e5e" size={22} />
-      </button>
+      <div className="items-center gap-4 hidden max-md:flex self-start">
+        <button
+          className="p-1 rounded-md cursor-pointer hover:bg-primary-600 inline-block"
+          onClick={() => setOpen(true)}
+          aria-label="Open navigation"
+        >
+          <PanelLeft strokeWidth={1.7} color="#5e5e5e" size={22} />
+        </button>
+        <span className="text-[25px]">{title}</span>
+      </div>
 
       <nav
         className="hidden max-md:block"

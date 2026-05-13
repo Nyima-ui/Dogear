@@ -1,11 +1,13 @@
-import React from 'react'
+import DashboardNavbar from "@/components/DashboardNavbar";
+import React from "react";
 
-const DashboardLayout = ({children}: {children: React.ReactNode}) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
+      <DashboardNavbar />
       {children}
     </>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;
