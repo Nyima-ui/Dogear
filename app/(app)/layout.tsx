@@ -1,11 +1,12 @@
-import React from 'react'
+import SidebarNav from "@/components/SidebarNav";
 
-const AppLayout = () => {
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      asdf
+    <div className="flex max-md:px-5 max-md:pt-3">
+      <SidebarNav />
+      <main>{children}</main>
     </div>
-  )
-}
+  );
+};
 
-export default AppLayout
+export default AppLayout;
