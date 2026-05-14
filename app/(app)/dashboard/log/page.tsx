@@ -1,11 +1,11 @@
-import React from 'react'
+import BookTable from "@/components/BookTable";
 
 const LogPage = () => {
   return (
-    <div>
-     
-    </div>
-  )
-}
+    <>
+      <BookTable />
+    </>
+  );
+};
 
-export default LogPage
+export default LogPage;

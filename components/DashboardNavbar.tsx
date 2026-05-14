@@ -9,13 +9,13 @@ const DashboardNavbar = () => {
   const pathname = usePathname();
   const title = titleMap[pathname] ?? "Dashboard";
   return (
-    <header className="">
+    <header>
       <h1 className="text-[31px] max-md:hidden">{title}</h1>
 
-      <div className="flex justify-between mt-5 items-center max-md:flex-col max-md:items-start max-md:gap-6 max-md:mt-0">
+      <div className="flex justify-between mt-3 items-center max-md:flex-col max-md:items-start max-md:gap-6 max-md:mt-0">
         {/* NAV CAPSULES  */}
         <nav className="max-md:w-full">
-          <ul className="flex max-md:justify-between overflow-auto py-1">
+          <ul className="flex max-md:justify-between overflow-auto py-1 gap-1.5">
             <li>
               <Link
                 href="/dashboard/log"
@@ -68,22 +68,24 @@ const DashboardNavbar = () => {
         </nav>
 
         {/* SEARCH BOX  */}
-        <form className="flex gap-2 items-center w-full max-w-79 max-md:max-w-none">
-          <div className="flex gap-2 focus-within:ring-1 focus-within:ring-black/70 rounded-2xl items-center p-1 w-full">
-            <label htmlFor="search-book" className="sr-only">
-              Search book
-            </label>
-            <span>
-              <Search strokeWidth={1.7} color="#AFAFAF" size={22} />
-            </span>
-            <input
-              type="text"
-              id="search-book"
-              name="search-book"
-              placeholder="Search book"
-              className="focus:outline-none w-full"
-            />
-          </div>
+        <div className="flex items-center gap-2 w-full max-w-79 max-md:max-w-none">
+          <form className="flex items-center w-full max-w-79 max-md:max-w-none">
+            <div className="flex gap-2 focus-within:ring-1 focus-within:ring-black/70 rounded-2xl items-center p-1 w-full">
+              <label htmlFor="search-book" className="sr-only">
+                Search book
+              </label>
+              <span>
+                <Search strokeWidth={1.7} color="#AFAFAF" size={22} />
+              </span>
+              <input
+                type="text"
+                id="search-book"
+                name="search-book"
+                placeholder="Search book"
+                className="focus:outline-none w-full"
+              />
+            </div>
+          </form>
 
           <button className="flex bg-primary items-center gap-1 self-start px-3 py-1 rounded-md cursor-pointer active:scale-102">
             <span className="font-medium">New</span>
@@ -91,7 +93,7 @@ const DashboardNavbar = () => {
               <Plus strokeWidth={2.5} color="#363636" size={15} />
             </span>
           </button>
-        </form>
+        </div>
       </div>
     </header>
   );
