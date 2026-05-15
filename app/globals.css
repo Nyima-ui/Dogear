@@ -48,11 +48,14 @@ body {
   --color-stroke: var(--border-color);
 }
 
-@media screen and (max-width: 450px) {
-  .text {
-    font-size: 14px;
+/* @layer base {
+  tbody td {
+    @apply border-b border-black/20 py-4;
   }
-}
+  tbody tr:last-child td {
+    @apply border-b-0;
+  }
+} */
 
 @utility table-heading {
   @apply font-medium  py-4 text-left border-b border-black/20;
@@ -62,11 +65,3 @@ body {
   @apply w-12;
 }
 
-@layer base {
-  tbody td {
-    @apply border-b border-black/20 py-4;
-  }
-  tbody tr:last-child td {
-    @apply border-b-0;
-  }
-}

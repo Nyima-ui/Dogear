@@ -39,6 +39,7 @@ const Hero = () => {
           alt={
             "A table showing how many books you have read and are currently reading."
           }
+          loading="eager"
           className="relative z-10 max-sm:hidden"
         />
         <Image

@@ -19,8 +19,8 @@ const Footer = () => {
             <li>
               <Link href={"https://github.com/Nyima-ui/Dogear"} target="_blank">
                 <Image
-                  width={32}
-                  height={32}
+                  width={24}
+                  height={24}
                   src={"/svgs/github.svg"}
                   alt={"Github icon."}
                   rel="noopener noreferrer"
@@ -30,8 +30,8 @@ const Footer = () => {
             <li>
               <Link href={"mailto:ntenzin492@gmail.com"} target="_blank">
                 <Image
-                  width={32}
-                  height={32}
+                  width={24}
+                  height={24}
                   src={"/svgs/mail.svg"}
                   alt={"Mail icon."}
                   rel="noopener noreferrer"
