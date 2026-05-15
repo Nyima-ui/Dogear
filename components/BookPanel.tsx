@@ -1,15 +1,12 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "./ui/calendar";
 import Star from "@/public/svgs/Star";
-import {
-  ChevronsRight,
-  Image as ImageIcon,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { ChevronsRight, Image as ImageIcon, ChevronDown } from "lucide-react";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import Button from "./Button";
+import Image from "next/image";
 
 type Status = "Reading" | "Finished" | "TBR" | "None";
 type Rating = 1 | 2 | 3 | 4 | 5 | undefined;
@@ -31,7 +28,12 @@ const styleMapForRating: Record<number, string> = {
   1: "flex p-1 rounded-md bg-[#FEE2E1] gap-0.5",
 };
 
-const BookPanel = () => {
+interface BookPanelProps {
+  isOpen: boolean;
+  onClose: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const BookPanel = ({ onClose }: BookPanelProps) => {
   const [isStatusDropDownOpened, setisStatusDropDownOpened] = useState(false);
   const [status, setStatus] = useState<Status>("None");
   const statusRef = useOutsideClick(isStatusDropDownOpened, () =>
@@ -58,21 +60,40 @@ const BookPanel = () => {
 
   const [coverUrl, setCoverUrl] = useState("");
 
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const objectUrl = URL.createObjectURL(file);
+    setCoverUrl(objectUrl);
+  };
+
   return (
-    <div className="bg-background fixed top-0 right-0 z-50 h-screen w-[752px] border-l border-black/20 p-3">
-      <button className="p-1 rounded-md hover:bg-primary-600 cursor-pointer">
+    <div>
+      <button
+        className="p-1 rounded-md hover:bg-primary-600 cursor-pointer"
+        onClick={() => onClose(false)}
+      >
         <ChevronsRight strokeWidth={1.7} color="#363636" />
       </button>
-      <form className="px-8 mt-6">
+      <form className="px-8 mt-6 max-sm:px-0">
         {/* FIRST PART  */}
         <div className="flex gap-4">
           {/* IMAGE  */}
-          <div className="w-[120px] h-[180px] bg-primary-600 rounded-md flex justify-center items-center">
-            <ImageIcon
-              strokeWidth={1}
-              className="text-foreground/30"
-              size={34}
-            />
+          <div className="w-[120px] h-[180px] bg-primary-600 rounded-md flex justify-center items-center overflow-hidden">
+            {coverUrl ? (
+              <Image
+                width={120}
+                height={180}
+                src={coverUrl}
+                alt={"Book cover url"}
+              />
+            ) : (
+              <ImageIcon
+                strokeWidth={1}
+                className="text-foreground/30"
+                size={34}
+              />
+            )}
           </div>
           {/* INPUT FIELDS  */}
           <div className="grow">
@@ -366,18 +387,18 @@ const BookPanel = () => {
           </div>
 
           {/* FIFTH FIELD  */}
-          <div className="flex items-center">
-            <label htmlFor="cover-url" className="w-[136px] text-foreground/70">
+          <div className="flex items-center ">
+            <label htmlFor="cover-url" className="w-[136px] text-foreground/70 block shrink-0">
               Cover
             </label>
             <input
-              type="text"
+              type="file"
               id="cover-url"
               name="cover-url"
-              className="text-sm grow py-1.5 border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary focus:rounded-md focus:px-1 placeholder:text-foreground/30 focus:border-none"
+              accept="image/*"
+              className="text-sm py-1.5 border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary focus:rounded-md placeholder:text-foreground/30 focus:border-none cursor-pointer w-full"
               placeholder="Paste image URL"
-              value={coverUrl}
-              onChange={(e) => setCoverUrl(e.target.value)}
+              onChange={handleCoverUpload}
             />
           </div>
 
@@ -393,6 +414,8 @@ const BookPanel = () => {
               className="block w-full text-sm grow py-1.5 border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary focus:rounded-md focus:px-1 placeholder:text-foreground/30 focus:border-none mt-3"
             ></textarea>
           </div>
+
+          <Button text="Save book" className="px-3" />
         </div>
       </form>
     </div>

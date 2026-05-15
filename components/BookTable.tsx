@@ -1,4 +1,4 @@
-"use";
+"use client";
 import { Square } from "lucide-react";
 import Image from "next/image";
 
