@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
-import { IBook } from "@/types";
+import { IBookDocument } from "@/types";
 
-const BookSchema = new Schema<IBook>(
+const BookSchema = new Schema<IBookDocument>(
   {
     clerkId: { type: String, required: true },
     title: { type: String, required: true },

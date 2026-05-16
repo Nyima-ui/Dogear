@@ -10,6 +10,7 @@ import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 import { IBook } from "@/types";
 import { useAuth } from "@clerk/nextjs";
+import { createBook } from "@/lib/actions/book.action";
 
 type Status = "Reading" | "Finished" | "TBR" | "None";
 type Rating = 1 | 2 | 3 | 4 | 5 | undefined;
@@ -86,9 +87,9 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
 
       const formData = new FormData(e.target);
 
-      const title = formData.get("book-title");
-      const author = formData.get("book-author");
-      const review = formData.get("book-review");
+      const title = formData.get("book-title") as string;
+      const author = formData.get("book-author") as string;
+      const review = formData.get("book-review") as string;
 
       let coverUrl = "";
       if (coverFile) {
@@ -98,14 +99,17 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
           {
             access: "public",
             handleUploadUrl: "/api/upload",
-            contentType: "image/png",
+            contentType: coverFile.type,
           },
         );
 
         coverUrl = uploadedBookCover.url;
       }
 
-      const payload = {
+      //REPLACE WITH SONNER
+      if (status === "None") throw new Error("Please select a status");
+
+      const payload: IBook = {
         clerkId: userId,
         title,
         author,
@@ -117,10 +121,13 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
         coverUrl,
       };
 
-      console.log(payload);
+      const book = await createBook(payload);
 
       onClose(false);
+
+      console.log(book);
     } catch (e) {
+      //ADD SONNER
       console.error("Error adding book to table", e);
     } finally {
       setLoading(false);
