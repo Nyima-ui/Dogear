@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "./ui/calendar";
 import Star from "@/public/svgs/Star";
@@ -7,6 +7,9 @@ import { ChevronsRight, Image as ImageIcon, ChevronDown } from "lucide-react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import Button from "./Button";
 import Image from "next/image";
+import { upload } from "@vercel/blob/client";
+import { IBook } from "@/types";
+import { useAuth } from "@clerk/nextjs";
 
 type Status = "Reading" | "Finished" | "TBR" | "None";
 type Rating = 1 | 2 | 3 | 4 | 5 | undefined;
@@ -59,23 +62,85 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
   );
 
   const [coverUrl, setCoverUrl] = useState("");
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+
+  const [loading, setLoading] = useState(false);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const { userId } = useAuth();
 
   const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const objectUrl = URL.createObjectURL(file);
-    setCoverUrl(objectUrl);
+    setCoverFile(file);
+    setCoverUrl(URL.createObjectURL(file));
+  };
+
+  const handleSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+
+      if (!userId) return;
+
+      const formData = new FormData(e.target);
+
+      const title = formData.get("book-title");
+      const author = formData.get("book-author");
+      const review = formData.get("book-review");
+
+      let coverUrl = "";
+      if (coverFile) {
+        const uploadedBookCover = await upload(
+          `${title}_cover.png`,
+          coverFile,
+          {
+            access: "public",
+            handleUploadUrl: "/api/upload",
+            contentType: "image/png",
+          },
+        );
+
+        coverUrl = uploadedBookCover.url;
+      }
+
+      const payload = {
+        clerkId: userId,
+        title,
+        author,
+        status,
+        startDate,
+        finishDate,
+        rating,
+        review,
+        coverUrl,
+      };
+
+      console.log(payload);
+
+      onClose(false);
+    } catch (e) {
+      console.error("Error adding book to table", e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <button
+        type="button"
         className="p-1 rounded-md hover:bg-primary-600 cursor-pointer"
         onClick={() => onClose(false)}
       >
         <ChevronsRight strokeWidth={1.7} color="#363636" />
       </button>
-      <form className="px-8 mt-6 max-sm:px-0">
+      <form
+        className="px-8 mt-6 max-sm:px-0"
+        onSubmit={handleSubmit}
+        ref={formRef}
+      >
         {/* FIRST PART  */}
         <div className="flex gap-4">
           {/* IMAGE  */}
@@ -97,7 +162,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
           </div>
           {/* INPUT FIELDS  */}
           <div className="grow">
-            <div className="">
+            <div>
               <label htmlFor="book-title" className="sr-only">
                 Book Title
               </label>
@@ -107,9 +172,10 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
                 name="book-title"
                 placeholder="New title"
                 className="text-xl w-full py-3 px-1 rounded-md placeholder:text-foreground border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary font-medium"
+                required
               />
             </div>
-            <div className="">
+            <div>
               <label htmlFor="book-author" className="sr-only">
                 Book Author
               </label>
@@ -119,6 +185,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
                 name="book-author"
                 placeholder="Author"
                 className="text-sm w-full py-1.5 px-1 rounded-md border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary mt-5 focus:border-none"
+                required
               />
             </div>
           </div>
@@ -388,7 +455,10 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
 
           {/* FIFTH FIELD  */}
           <div className="flex items-center ">
-            <label htmlFor="cover-url" className="w-[136px] text-foreground/70 block shrink-0">
+            <label
+              htmlFor="cover-url"
+              className="w-[136px] text-foreground/70 block shrink-0"
+            >
               Cover
             </label>
             <input
@@ -408,14 +478,19 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
               Review
             </label>
             <textarea
-              name="review"
+              name="book-review"
               id="review"
               placeholder="Write a review..."
               className="block w-full text-sm grow py-1.5 border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary focus:rounded-md focus:px-1 placeholder:text-foreground/30 focus:border-none mt-3"
             ></textarea>
           </div>
 
-          <Button text="Save book" className="px-3" />
+          <Button
+            text="Save book"
+            type="submit"
+            className="px-3"
+            loading={loading}
+          />
         </div>
       </form>
     </div>
