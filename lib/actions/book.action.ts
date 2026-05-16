@@ -19,3 +19,21 @@ export const createBook = async (bookPayload: IBook) => {
     };
   }
 };
+
+export const fetchBooksById = async (id: string) => {
+  try {
+    await connectToMongoDB();
+
+    const books = await Book.find({ clerkId: id }).lean();
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(books)),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      error: e,
+    };
+  }
+};

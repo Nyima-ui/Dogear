@@ -20,3 +20,7 @@ export interface IBookDocument extends IBook, Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+export type Status = "Reading" | "Finished" | "TBR" | "None";
+export type Rating = 1 | 2 | 3 | 4 | 5 | undefined;

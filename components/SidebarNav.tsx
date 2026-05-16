@@ -16,7 +16,7 @@ const SidebarNav = () => {
     <>
       {/* DESKTOP SIDEBAR NAVIGATION */}
       <nav
-        className="border border-r-stroke w-fit h-screen flex flex-col items-center gap-25 px-1.5 max-md:hidden"
+        className="border-r border-stroke w-fit h-screen flex flex-col items-center gap-25 px-1.5 max-md:hidden"
         aria-label="Desktop navigaton"
       >
         <Link href="/dashboard/log" className="mt-8 relative group">

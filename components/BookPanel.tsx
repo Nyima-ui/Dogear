@@ -11,26 +11,8 @@ import { upload } from "@vercel/blob/client";
 import { IBook } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { createBook } from "@/lib/actions/book.action";
-
-type Status = "Reading" | "Finished" | "TBR" | "None";
-type Rating = 1 | 2 | 3 | 4 | 5 | undefined;
-
-const styleMapForStatus: Record<Status, string> = {
-  Reading:
-    "bg-[#E1E1FE] text-[#1E23FB] px-2 py-0.5 rounded-md cursor-pointer select-none text-sm",
-  Finished:
-    "bg-[#BBF7D1] text-[#157F3D] px-2 py-0.5 rounded-md cursor-pointer select-none text-sm",
-  TBR: "bg-[#FDE689] text-[#D87706] px-2 py-0.5 rounded-md cursor-pointer select-none text-sm",
-  None: "text-foreground/30 py-0.5 text-sm",
-};
-
-const styleMapForRating: Record<number, string> = {
-  5: "flex p-1 rounded-md bg-[#E1E1FD] gap-0.5",
-  4: "flex p-1 rounded-md bg-[#DCFCE7] gap-0.5",
-  3: "flex p-1 rounded-md bg-[#FFE0B2] gap-0.5",
-  2: "flex p-1 rounded-md bg-[#FFF2C8] gap-0.5",
-  1: "flex p-1 rounded-md bg-[#FEE2E1] gap-0.5",
-};
+import { Status, Rating } from "@/types";
+import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
 
 interface BookPanelProps {
   isOpen: boolean;
