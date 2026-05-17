@@ -14,6 +14,8 @@ const DashboardNavbar = () => {
 
   const [isFormOpened, setIsFormOpened] = useState(false);
   const formRef = useOutsideClick(isFormOpened, () => setIsFormOpened(false));
+
+  const onClose = () => setIsFormOpened(false);
   return (
     <>
       <header>
@@ -112,12 +114,10 @@ const DashboardNavbar = () => {
         className={cn(
           `bg-background fixed top-0 right-0 z-50 h-screen overflow-y-auto w-[752px] border-l border-black/20 p-3 transition-transform duration-300 ease-out pb-10`,
           isFormOpened ? "translate-x-0" : "translate-x-full",
-          "max-md:w-screen max-sm:px-5"
+          "max-md:w-screen max-sm:px-5",
         )}
       >
-        {isFormOpened && (
-          <BookPanel isOpen={isFormOpened} onClose={setIsFormOpened} />
-        )}
+        {isFormOpened && <BookPanel isOpen={isFormOpened} onClose={onClose} />}
       </div>
     </>
   );

@@ -16,8 +16,24 @@ import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
 
 interface BookPanelProps {
   isOpen: boolean;
-  onClose: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
+
+type OpenField = "status" | "startDate" | "finishDate" | "rating" | null;
+
+const STATUS_OPTIONS: { value: Status; label: string }[] = [
+  { value: "Reading", label: "Reading" },
+  { value: "Finished", label: "Finished" },
+  { value: "TBR", label: "TBR" },
+];
+
+const RATING_OPTIONS: { value: NonNullable<Rating> }[] = [
+  { value: 5 },
+  { value: 4 },
+  { value: 3 },
+  { value: 2 },
+  { value: 1 },
+];
 
 const BookPanel = ({ onClose }: BookPanelProps) => {
   const [isStatusDropDownOpened, setisStatusDropDownOpened] = useState(false);
@@ -105,8 +121,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
 
       const book = await createBook(payload);
 
-      onClose(false);
-
+      onClose();
     } catch (e) {
       //ADD SONNER
       console.error("Error adding book to table", e);
@@ -120,7 +135,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
       <button
         type="button"
         className="p-1 rounded-md hover:bg-primary-600 cursor-pointer"
-        onClick={() => onClose(false)}
+        onClick={() => onClose()}
       >
         <ChevronsRight strokeWidth={1.7} color="#363636" />
       </button>

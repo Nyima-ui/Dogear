@@ -1,7 +1,7 @@
 "use client";
 import { IBookDocument } from "@/types";
 import { formatDate } from "@/lib/utils";
-import { Trash2 } from "lucide-react";
+import { Trash2, PanelLeft } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
@@ -80,7 +80,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                 )}
               </button>
             </th>
-            <th scope="col" className="w-42">
+            <th scope="col" className="w-43">
               Title
             </th>
             <th scope="col" className="w-32">
@@ -119,7 +119,21 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                   {selectedIds.has(b._id) ? <CheckedBox /> : <CustomSquare />}
                 </button>
               </td>
-              <td className="font-medium">{b.title}</td>
+              <td className="font-medium">
+                <div className="group cursor-pointer relative">
+                  <span>{b.title}</span>
+                  <button className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm">
+                    <PanelLeft
+                      size={15}
+                      className="text-foreground/60 block"
+                      strokeWidth={1.5}
+                    />
+                    <span className="uppercase text-xs text-foreground/60 block leading-none">
+                      OPEN
+                    </span>
+                  </button>
+                </div>
+              </td>
               <td>{b.author}</td>
               <td>
                 <span className={cn(styleMapForStatus[b.status])}>
