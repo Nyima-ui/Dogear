@@ -107,7 +107,6 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
 
       onClose(false);
 
-      console.log(book);
     } catch (e) {
       //ADD SONNER
       console.error("Error adding book to table", e);

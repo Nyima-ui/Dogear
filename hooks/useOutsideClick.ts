@@ -8,7 +8,6 @@ const useOutsideClick = (isOpen: boolean, onClose: () => void) => {
 
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        console.log("event fired")
         onClose();
       }
     };

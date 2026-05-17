@@ -1,38 +1,109 @@
 "use client";
 import { IBookDocument } from "@/types";
 import { formatDate } from "@/lib/utils";
-import { Square } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
 import Star from "@/public/svgs/Star";
+import { useState } from "react";
+import CustomSquare from "@/public/svgs/Square";
+import CheckedBox from "@/public/svgs/CheckedBox";
+import { deleteBookById } from "@/lib/actions/book.action";
 
 const BookTable = ({ books }: { books: IBookDocument[] }) => {
-  console.log(books);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const toggleRow = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    setSelectedIds((prev) =>
+      prev.size === books.length ? new Set() : new Set(books.map((b) => b._id)),
+    );
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteBookById([...selectedIds]);
+    } catch (e) {
+      //TODO: Add a sonner notification
+      console.error("Error deleting rows", e);
+    }
+  };
+
   return (
-    <div className="overflow-x-auto h-[80vh] mt-3 w-full">
+    <div className="overflow-x-auto h-[80vh] mt-3 w-full border-black/20 rounded-md overflow-y-auto">
+      {selectedIds.size > 0 && (
+        <button
+          className="flex items-center text-xs cursor-pointer border border-black/10 p-2 gap-1.5 rounded-md my-2 hover:bg-foreground/5"
+          onClick={handleDelete}
+        >
+          <span>
+            <Trash2 size={15} className="text-foreground" strokeWidth={1} />
+          </span>
+          <span>Delete {selectedIds.size} item</span>
+        </button>
+      )}
+
       <table
+        aria-label="Book list"
         className={cn(
-          `min-w-max border border-black/20 w-full bg-background rounded-md border-separate border-spacing-0 text-sm`,
-          "[&_td]:border-b [&_td]:border-black/20 [&_tr:last-child_td]:border-b-0 [&_thead_th]:py-4 [&_thead_th]:font-medium [&_thead_th]:text-left [&_thead_th]:border-b [&_thead_th]:border-black/20 [&_thead_th]:text-foreground/80 overflow-y-auto",
+          `min-w-max border-r border-b border-black/20 w-full bg-background rounded-md border-separate border-spacing-0 text-sm`,
+          "[&_td]:border-b [&_td]:border-black/20 [&_tr:last-child_td]:border-b-0 [&_thead_th]:py-4 [&_thead_th]:font-medium [&_thead_th]:text-left [&_thead_th]:border-b [&_thead_th]:border-t [&_thead_th]:border-black/20 [&_thead_th]:text-foreground/80",
         )}
       >
         {/* TABLE HEADING ROW  */}
-        <thead className="bg-primary-600">
+        <thead className="bg-primary-600 sticky top-0 z-20">
           <tr>
-            <th className="w-12">
-              <button className="w-full flex justify-center cursor-pointer">
-                <Square strokeWidth={1} color="#2A2A2A" size={16} />
+            <th
+              scope="col"
+              className="w-12 sticky left-0 z-30 bg-primary-600 border-l shadow-2xl"
+            >
+              <button
+                className="w-full flex justify-center cursor-pointer"
+                onClick={toggleAll}
+              >
+                {selectedIds.size === books.length && books.length > 0 ? (
+                  <CheckedBox />
+                ) : (
+                  <CustomSquare />
+                )}
               </button>
             </th>
-            <th className="w-[168px]">Title</th>
-            <th className="w-[128px]">Author</th>
-            <th className="w-[104px]">Status</th>
-            <th className="w-[142px]">Start date</th>
-            <th className="w-[142px]">Finish date</th>
-            <th className="w-[120px]">Rating</th>
-            <th className="w-[300px]">Review</th>
-            <th className="text-center! w-30">Cover</th>
+            <th scope="col" className="w-42">
+              Title
+            </th>
+            <th scope="col" className="w-32">
+              Author
+            </th>
+            <th scope="col" className="w-26">
+              Status
+            </th>
+            <th scope="col" className="w-35.5">
+              Start date
+            </th>
+            <th scope="col" className="w-35.5">
+              Finish date
+            </th>
+            <th scope="col" className="w-30">
+              Rating
+            </th>
+            <th scope="col" className="w-75">
+              Review
+            </th>
+            <th scope="col" className="text-center! w-30">
+              Cover
+            </th>
           </tr>
         </thead>
 
@@ -40,9 +111,12 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
         <tbody>
           {books.map((b) => (
             <tr key={b._id} className="border-b border-black">
-              <td className="py-4">
-                <button className="flex justify-center w-full cursor-pointer">
-                  <Square strokeWidth={1} color="#2A2A2A" size={16} />
+              <td className="py-4 sticky left-0 z-10 bg-background border-l shadow-2xl">
+                <button
+                  className="flex justify-center w-full cursor-pointer"
+                  onClick={() => toggleRow(b._id)}
+                >
+                  {selectedIds.has(b._id) ? <CheckedBox /> : <CustomSquare />}
                 </button>
               </td>
               <td className="font-medium">{b.title}</td>

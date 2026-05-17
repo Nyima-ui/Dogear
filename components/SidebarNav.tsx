@@ -27,7 +27,7 @@ const SidebarNav = () => {
             alt={"Books icon"}
             className="select-none"
           />
-          <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+3px)] text-nowrap hidden group-hover:block select-none">
+          <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+3px)] text-nowrap hidden group-hover:block select-none z-30">
             Home
           </span>
         </Link>
@@ -39,7 +39,7 @@ const SidebarNav = () => {
             >
               <Table2 strokeWidth={1.7} color="#363636" />
             </Link>
-            <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+5px)] text-nowrap hidden group-hover:block">
+            <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+5px)] text-nowrap hidden group-hover:block z-30">
               Library
             </span>
           </li>
@@ -50,7 +50,7 @@ const SidebarNav = () => {
             >
               <Sparkles strokeWidth={1.7} color="#363636" />
             </Link>
-            <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+5px)] text-nowrap hidden group-hover:block">
+            <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+5px)] text-nowrap hidden group-hover:block z-30">
               Ask Dogear
             </span>
           </li>
