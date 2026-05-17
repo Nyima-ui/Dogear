@@ -6,7 +6,7 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import Button from "./Button";
 import Image from "next/image";
 import { upload } from "@vercel/blob/client";
-import { IBook } from "@/types";
+import { IBook, IBookDocument } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { createBook } from "@/lib/actions/book.action";
 import { Status, Rating } from "@/types";
@@ -18,6 +18,7 @@ import StarRow from "./StarRow";
 interface BookPanelProps {
   isOpen: boolean;
   onClose: () => void;
+  initialData?: IBookDocument | null;
 }
 
 type OpenField = "status" | "startDate" | "finishDate" | "rating" | null;
@@ -36,13 +37,19 @@ const RATING_OPTIONS: { value: NonNullable<Rating> }[] = [
   { value: 1 },
 ];
 
-const BookPanel = ({ onClose }: BookPanelProps) => {
+const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
   const [openField, setOpenField] = useState<OpenField>(null);
 
-  const [status, setStatus] = useState<Status>("None");
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [finishDate, setFinishDate] = useState<Date | undefined>(undefined);
-  const [rating, setRating] = useState<Rating>(undefined);
+  const [status, setStatus] = useState<Status>(initialData?.status ?? "None");
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    initialData?.startDate ? new Date(initialData.startDate) : undefined,
+  );
+  const [finishDate, setFinishDate] = useState<Date | undefined>(
+    initialData?.finishDate ? new Date(initialData.finishDate) : undefined,
+  );
+  const [rating, setRating] = useState<Rating>(
+    initialData?.rating ?? undefined,
+  );
 
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -76,10 +83,6 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
     setCoverFile(file);
     setCoverPreviewUrl(URL.createObjectURL(file));
   };
-
-  useEffect(() => {
-    console.log(openField);
-  }, [openField]);
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -150,11 +153,11 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
         <div className="flex gap-4">
           {/* COVER  */}
           <div className="w-30 h-45 bg-primary-600 rounded-md flex justify-center items-center overflow-hidden">
-            {coverPreviewUrl ? (
+            {coverPreviewUrl || initialData?.coverUrl ? (
               <Image
                 width={120}
                 height={180}
-                src={coverPreviewUrl}
+                src={coverPreviewUrl || initialData?.coverUrl || ""}
                 alt={"Book cover url"}
               />
             ) : (
@@ -177,6 +180,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
                 name="book-title"
                 placeholder="New title"
                 className="text-xl w-full py-3 px-1 rounded-md placeholder:text-foreground border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary font-medium"
+                defaultValue={initialData?.title ?? ""}
                 required
               />
             </div>
@@ -190,6 +194,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
                 name="book-author"
                 placeholder="Author"
                 className="text-sm w-full py-1.5 px-1 rounded-md border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary mt-5 focus:border-none"
+                defaultValue={initialData?.author ?? ""}
                 required
               />
             </div>
@@ -329,6 +334,7 @@ const BookPanel = ({ onClose }: BookPanelProps) => {
               id="review"
               placeholder="Write a review..."
               className="block w-full text-sm grow py-1.5 border-b border-black/20 focus:outline-none focus:ring-1 focus:ring-primary focus:rounded-md focus:px-1 placeholder:text-foreground/30 focus:border-none mt-3"
+              defaultValue={initialData?.review ?? ""}
             ></textarea>
           </div>
 

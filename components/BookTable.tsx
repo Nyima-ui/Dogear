@@ -10,9 +10,11 @@ import { useState } from "react";
 import CustomSquare from "@/public/svgs/Square";
 import CheckedBox from "@/public/svgs/CheckedBox";
 import { deleteBookById } from "@/lib/actions/book.action";
+import { useBookPanel } from "@/contexts/BookPanelContext";
 
 const BookTable = ({ books }: { books: IBookDocument[] }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const { openForEdit } = useBookPanel();
 
   const toggleRow = (id: string) => {
     setSelectedIds((prev) => {
@@ -120,9 +122,12 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                 </button>
               </td>
               <td className="font-medium">
-                <div className="group cursor-pointer relative">
+                <div className="group relative">
                   <span>{b.title}</span>
-                  <button className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm">
+                  <button
+                    className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm"
+                    onClick={() => openForEdit(b)}
+                  >
                     <PanelLeft
                       size={15}
                       className="text-foreground/60 block"

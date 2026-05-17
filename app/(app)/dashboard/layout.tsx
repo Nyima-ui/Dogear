@@ -1,12 +1,12 @@
 import DashboardNavbar from "@/components/DashboardNavbar";
-import React from "react";
+import { BookPanelProvider } from "@/contexts/BookPanelContext";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
+    <BookPanelProvider>
       <DashboardNavbar />
       {children}
-    </>
+    </BookPanelProvider>
   );
 };
 
