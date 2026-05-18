@@ -8,6 +8,8 @@ interface BookPanelContextValue {
   close: () => void;
   isOpen: boolean;
   editingBook: IBookDocument | null;
+  isSaving: boolean;
+  setIsSaving: (v: boolean) => void;
 }
 
 const BookPanelContext = createContext<BookPanelContextValue | null>(null);
@@ -18,6 +20,7 @@ export const BookPanelProvider = ({
   children: React.ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [editingBook, setEditingBook] = useState<IBookDocument | null>(null);
 
   const openForEdit = (book: IBookDocument) => {
@@ -36,7 +39,15 @@ export const BookPanelProvider = ({
   };
   return (
     <BookPanelContext.Provider
-      value={{ openForEdit, openForCreate, close, isOpen, editingBook }}
+      value={{
+        openForEdit,
+        openForCreate,
+        close,
+        isOpen,
+        editingBook,
+        isSaving,
+        setIsSaving,
+      }}
     >
       {children}
     </BookPanelContext.Provider>

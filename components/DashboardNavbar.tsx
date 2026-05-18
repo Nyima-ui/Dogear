@@ -12,8 +12,9 @@ const DashboardNavbar = () => {
   const pathname = usePathname();
   const title = titleMap[pathname] ?? "Dashboard";
 
-  const { isOpen, openForCreate, close, editingBook } = useBookPanel();
-  const formRef = useOutsideClick(isOpen, () => close());
+  const { isOpen, openForCreate, close, editingBook, isSaving } =
+    useBookPanel();
+  const formRef = useOutsideClick(isOpen, () => close(), isSaving);
 
   return (
     <>
@@ -113,7 +114,7 @@ const DashboardNavbar = () => {
         className={cn(
           `bg-background fixed top-0 right-0 z-50 h-screen overflow-y-auto w-188 border-l border-black/20 p-3 transition-transform duration-300 ease-out pb-10`,
           isOpen ? "translate-x-0" : "translate-x-full",
-          "max-md:w-screen max-sm:px-5",
+          "max-md:w-full max-sm:px-5",
         )}
       >
         {isOpen && (

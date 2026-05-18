@@ -1,7 +1,7 @@
 "use client";
-import { IBookDocument } from "@/types";
+import { IBookDocument, Status } from "@/types";
 import { formatDate } from "@/lib/utils";
-import { Trash2, PanelLeft } from "lucide-react";
+import { Trash2, PanelLeft, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
@@ -11,9 +11,18 @@ import CustomSquare from "@/public/svgs/Square";
 import CheckedBox from "@/public/svgs/CheckedBox";
 import { deleteBookById } from "@/lib/actions/book.action";
 import { useBookPanel } from "@/contexts/BookPanelContext";
+import StatusFilter from "./StatusFilter";
+import useOutsideClick from "@/hooks/useOutsideClick";
 
 const BookTable = ({ books }: { books: IBookDocument[] }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const [showStatusFilter, setShowStatusFilter] = useState(false);
+  const [activeStatuses, setActiveStatuses] = useState<Set<Status>>(new Set());
+  const statusFilterRef = useOutsideClick(showStatusFilter, () =>
+    setShowStatusFilter(false),
+  );
+
   const { openForEdit } = useBookPanel();
 
   const toggleRow = (id: string) => {
@@ -41,6 +50,23 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
       //TODO: Add a sonner notification
       console.error("Error deleting rows", e);
     }
+  };
+
+  const filteredBooks =
+    activeStatuses.size === 0
+      ? books
+      : books.filter((b) => activeStatuses.has(b.status));
+
+  const toggleStatus = (status: Status) => {
+    setActiveStatuses((prev) => {
+      const next = new Set(prev);
+      if (next.has(status)) {
+        next.delete(status);
+      } else {
+        next.add(status);
+      }
+      return next;
+    });
   };
 
   return (
@@ -88,8 +114,34 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
             <th scope="col" className="w-32">
               Author
             </th>
-            <th scope="col" className="w-26">
-              Status
+            <th
+              scope="col"
+              className="w-26 relative"
+              ref={
+                statusFilterRef as React.RefObject<HTMLTableHeaderCellElement>
+              }
+            >
+              <div className="flex items-center gap-3">
+                <span>Status</span>
+                <button
+                  className="cursor-pointer px-1 py-0.5 hover:bg-foreground/5 rounded-md"
+                  onClick={() => setShowStatusFilter((p) => !p)}
+                >
+                  <ChevronsUpDown
+                    strokeWidth={2}
+                    className="text-primary"
+                    size={14}
+                  />
+                </button>
+              </div>
+              {showStatusFilter && (
+                <div className="absolute top-10 left-15">
+                  <StatusFilter
+                    activeStatuses={activeStatuses}
+                    onToggle={toggleStatus}
+                  />
+                </div>
+              )}
             </th>
             <th scope="col" className="w-35.5">
               Start date
@@ -111,7 +163,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
 
         {/* TABLE BODY  */}
         <tbody>
-          {books.map((b) => (
+          {filteredBooks.map((b) => (
             <tr key={b._id} className="border-b border-black">
               <td className="py-4 sticky left-0 z-10 bg-background border-l shadow-2xl">
                 <button

@@ -8,16 +8,13 @@ import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 import { IBook, IBookDocument } from "@/types";
 import { useAuth } from "@clerk/nextjs";
-import {
-  createBook,
-  deleteBlobUrl,
-  updateBook,
-} from "@/lib/actions/book.action";
+import { createBook, updateBook } from "@/lib/actions/book.action";
 import { Status, Rating } from "@/types";
 import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
 import FieldDropdown from "./FieldDropdown";
 import DateField from "./DateField";
 import StarRow from "./StarRow";
+import { useBookPanel } from "@/contexts/BookPanelContext";
 
 interface BookPanelProps {
   isOpen: boolean;
@@ -57,7 +54,7 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
 
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
+  const { isSaving, setIsSaving } = useBookPanel();
 
   const formRef = useRef<HTMLFormElement>(null);
   const { userId } = useAuth();
@@ -88,10 +85,18 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
     setCoverPreviewUrl(URL.createObjectURL(file));
   };
 
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      setIsSaving(true);
       if (!userId) return;
 
       const formData = new FormData(e.target);
@@ -140,7 +145,7 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
       //ADD SONNER
       console.error("Error adding book to table", e);
     } finally {
-      setLoading(false);
+      setIsSaving(false);
     }
   };
 
@@ -149,7 +154,7 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
       <button
         type="button"
         className="p-1 rounded-md hover:bg-primary-600 cursor-pointer"
-        disabled={loading}
+        disabled={isSaving}
         onClick={() => onClose()}
       >
         <ChevronsRight strokeWidth={1.7} color="#363636" />
@@ -352,7 +357,7 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
             text="Save book"
             type="submit"
             className="px-3"
-            loading={loading}
+            loading={isSaving}
           />
         </div>
       </form>
