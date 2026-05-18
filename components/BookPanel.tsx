@@ -8,7 +8,11 @@ import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 import { IBook, IBookDocument } from "@/types";
 import { useAuth } from "@clerk/nextjs";
-import { createBook } from "@/lib/actions/book.action";
+import {
+  createBook,
+  deleteBlobUrl,
+  updateBook,
+} from "@/lib/actions/book.action";
 import { Status, Rating } from "@/types";
 import { styleMapForRating, styleMapForStatus } from "@/lib/constants";
 import FieldDropdown from "./FieldDropdown";
@@ -95,7 +99,7 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
       const author = formData.get("book-author") as string;
       const review = formData.get("book-review") as string;
 
-      let coverUrl = "";
+      let coverUrl = initialData?.coverUrl ?? "";
       if (coverFile) {
         const uploadedBookCover = await upload(
           `${title}_cover.png`,
@@ -125,7 +129,12 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
         coverUrl,
       };
 
-      createBook(payload);
+      if (initialData) {
+        await updateBook(initialData?._id, payload, initialData.coverUrl);
+      } else {
+        await createBook(payload);
+      }
+
       onClose();
     } catch (e) {
       //ADD SONNER
@@ -140,6 +149,7 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
       <button
         type="button"
         className="p-1 rounded-md hover:bg-primary-600 cursor-pointer"
+        disabled={loading}
         onClick={() => onClose()}
       >
         <ChevronsRight strokeWidth={1.7} color="#363636" />

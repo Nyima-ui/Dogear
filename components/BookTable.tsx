@@ -176,7 +176,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                       className="rounded-xs"
                     />
                   ) : (
-                    <div className="w-5 h-7.75 bg-amber-400"></div>
+                    <div className="w-5 h-7.75 bg-primary-700/70 rounded-xs"></div>
                   )}
                 </span>
               </td>

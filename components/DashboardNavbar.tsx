@@ -5,7 +5,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Search, Plus } from "lucide-react";
 import BookPanel from "./BookPanel";
-import { useState } from "react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useBookPanel } from "@/contexts/BookPanelContext";
 

@@ -69,3 +69,36 @@ export const deleteBookById = async (id: string | string[]) => {
     };
   }
 };
+
+export const updateBook = async (
+  bookId: string,
+  bookPayload: IBook,
+  oldCoverUrl?: string,
+) => {
+  try {
+    await connectToMongoDB();
+
+    if (
+      oldCoverUrl &&
+      bookPayload.coverUrl &&
+      oldCoverUrl !== bookPayload.coverUrl
+    ) {
+      await del(oldCoverUrl);
+    }
+
+    await Book.findByIdAndUpdate(bookId, bookPayload, {
+      new: true,
+    });
+
+    revalidatePath("/dashboard/log");
+  } catch (e) {
+    return {
+      success: false,
+      error: e,
+    };
+  }
+};
+
+export const deleteBlobUrl = async (url: string) => {
+  await del(url);
+};
