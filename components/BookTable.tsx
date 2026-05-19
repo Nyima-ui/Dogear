@@ -14,9 +14,12 @@ import { useBookPanel } from "@/contexts/BookPanelContext";
 import StatusFilter from "./StatusFilter";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { toast } from "sonner";
+import DeleteModal from "./DeleteModal";
 
 const BookTable = ({ books }: { books: IBookDocument[] }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   const [showStatusFilter, setShowStatusFilter] = useState(false);
   const [activeStatuses, setActiveStatuses] = useState<Set<Status>>(new Set());
@@ -44,10 +47,17 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
     );
   };
 
+  const confirmDelete = async () => {
+    setIsDeleteModalOpen(true);
+  };
+
   const handleDelete = async () => {
     try {
+      setLoadingDelete(true);
       const count = selectedIds.size;
       await deleteBookById([...selectedIds]);
+      setIsDeleteModalOpen(false);
+
       toast.success(
         count === 1
           ? "1 book removed from your library."
@@ -58,6 +68,8 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
     } catch (e) {
       toast.error(`Something went wrong. Please try again.`);
       console.error("Error deleting rows", e);
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
@@ -83,13 +95,22 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
       {selectedIds.size > 0 && (
         <button
           className="flex items-center text-xs cursor-pointer border border-black/10 p-2 gap-1.5 rounded-md my-2 hover:bg-foreground/5"
-          onClick={handleDelete}
+          onClick={confirmDelete}
         >
           <span>
             <Trash2 size={15} className="text-foreground" strokeWidth={1} />
           </span>
           <span>Delete {selectedIds.size} item</span>
         </button>
+      )}
+
+      {isDeleteModalOpen && selectedIds.size > 0 && (
+        <DeleteModal
+          count={selectedIds.size}
+          onDelete={handleDelete}
+          onClose={setIsDeleteModalOpen}
+          loading={loadingDelete}
+        />
       )}
 
       <table
