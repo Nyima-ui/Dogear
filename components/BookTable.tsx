@@ -47,7 +47,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
     );
   };
 
-  const confirmDelete = async () => {
+  const confirmDelete = () => {
     setIsDeleteModalOpen(true);
   };
 
