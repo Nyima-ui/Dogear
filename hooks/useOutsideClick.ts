@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 
-const useOutsideClick = (
+const useOutsideClick = <T extends HTMLElement = HTMLElement>(
   isOpen: boolean,
   onClose: () => void,
   disabled?: boolean,
 ) => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<T>(null);
 
   useEffect(() => {
     if (!isOpen) return;

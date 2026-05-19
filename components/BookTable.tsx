@@ -117,9 +117,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
             <th
               scope="col"
               className="w-26 relative"
-              ref={
-                statusFilterRef as React.RefObject<HTMLTableHeaderCellElement>
-              }
+              ref={statusFilterRef as React.RefObject<HTMLTableCellElement>}
             >
               <div className="flex items-center gap-3">
                 <span>Status</span>

@@ -14,7 +14,11 @@ const DashboardNavbar = () => {
 
   const { isOpen, openForCreate, close, editingBook, isSaving } =
     useBookPanel();
-  const formRef = useOutsideClick(isOpen, () => close(), isSaving);
+  const formRef = useOutsideClick<HTMLDivElement>(
+    isOpen,
+    () => close(),
+    isSaving,
+  );
 
   return (
     <>

@@ -59,20 +59,24 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const { userId } = useAuth();
 
-  const statusRef = useOutsideClick(openField === "status", () =>
-    setOpenField(null),
+  const statusRef = useOutsideClick<HTMLDivElement>(
+    openField === "status",
+    () => setOpenField(null),
   );
 
-  const startCalendarRef = useOutsideClick(openField === "startDate", () =>
-    setOpenField(null),
+  const startCalendarRef = useOutsideClick<HTMLDivElement>(
+    openField === "startDate",
+    () => setOpenField(null),
   );
 
-  const finishCalendarRef = useOutsideClick(openField === "finishDate", () =>
-    setOpenField(null),
+  const finishCalendarRef = useOutsideClick<HTMLDivElement>(
+    openField === "finishDate",
+    () => setOpenField(null),
   );
 
-  const ratingRef = useOutsideClick(openField === "rating", () =>
-    setOpenField(null),
+  const ratingRef = useOutsideClick<HTMLDivElement>(
+    openField === "rating",
+    () => setOpenField(null),
   );
 
   const toggle = (field: OpenField) =>
