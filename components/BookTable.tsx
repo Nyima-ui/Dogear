@@ -13,6 +13,7 @@ import { deleteBookById } from "@/lib/actions/book.action";
 import { useBookPanel } from "@/contexts/BookPanelContext";
 import StatusFilter from "./StatusFilter";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import { toast } from "sonner";
 
 const BookTable = ({ books }: { books: IBookDocument[] }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -45,9 +46,17 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
 
   const handleDelete = async () => {
     try {
+      const count = selectedIds.size;
       await deleteBookById([...selectedIds]);
+      toast.success(
+        count === 1
+          ? "1 book removed from your library."
+          : `${count} books removed from your library.`,
+      );
+
+      setSelectedIds(new Set());
     } catch (e) {
-      //TODO: Add a sonner notification
+      toast.error(`Something went wrong. Please try again.`);
       console.error("Error deleting rows", e);
     }
   };
@@ -108,7 +117,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                 )}
               </button>
             </th>
-            <th scope="col" className="w-43">
+            <th scope="col" className="w-43 pl-0.5">
               Title
             </th>
             <th scope="col" className="w-32">
@@ -172,7 +181,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                 </button>
               </td>
               <td className="font-medium">
-                <div className="group relative">
+                <div className="group relative pl-0.5">
                   <span>{b.title}</span>
                   <button
                     className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm"

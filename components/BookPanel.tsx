@@ -15,6 +15,7 @@ import FieldDropdown from "./FieldDropdown";
 import DateField from "./DateField";
 import StarRow from "./StarRow";
 import { useBookPanel } from "@/contexts/BookPanelContext";
+import { toast } from "sonner";
 
 interface BookPanelProps {
   isOpen: boolean;
@@ -123,8 +124,10 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
         coverUrl = uploadedBookCover.url;
       }
 
-      //REPLACE WITH SONNER
-      if (status === "None") throw new Error("Please select a status");
+      if (status === "None") {
+        toast.error("Please select a status before saving.");
+        return;
+      }
 
       const payload: IBook = {
         clerkId: userId,
@@ -145,9 +148,15 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
       }
 
       onClose();
+
+      if (initialData) {
+        toast.success(`${initialData?.title} has been updated.`);
+      } else {
+        toast.success(`${title} added to your library.`);
+      }
     } catch (e) {
-      //ADD SONNER
       console.error("Error adding book to table", e);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSaving(false);
     }

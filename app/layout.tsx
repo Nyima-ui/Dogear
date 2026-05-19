@@ -3,8 +3,9 @@ import { Bricolage_Grotesque, Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -35,8 +36,29 @@ export default function RootLayout({
         },
       }}
     >
-      <html lang="en" className={cn("h-full", "antialiased", bricolage.variable, "font-sans", geist.variable)}>
-        <body className="bg-background text-foreground">{children}</body>
+      <html
+        lang="en"
+        className={cn(
+          "h-full",
+          "antialiased",
+          bricolage.variable,
+          "font-sans",
+          geist.variable,
+        )}
+      >
+        <body className="bg-background text-foreground">
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: "#FFFEF0",
+                color: "#363636",
+                fontFamily: "var(--font-bricolage",
+              },
+            }}
+          />
+        </body>
       </html>
     </ClerkProvider>
   );
