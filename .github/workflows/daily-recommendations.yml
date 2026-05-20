@@ -1,0 +1,16 @@
+# .github/workflows/daily-recommendations.yml
+name: Daily Book Recommendations
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # runs every day at 3am UTC
+  workflow_dispatch: # lets you trigger it manually from GitHub too
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call refresh endpoint
+        run: |
+          curl -X POST https://dogear-beta.vercel.app/api/recommendations/refresh \
+            -H "x-cron-secret: ${{secrets.CRON_SECRET}}"
