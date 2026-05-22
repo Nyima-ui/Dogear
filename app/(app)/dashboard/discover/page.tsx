@@ -1,4 +1,7 @@
-import { fetchRecommendations } from "@/lib/actions/book.recommendation";
+import {
+  enrichRecommendations,
+  fetchRecommendations,
+} from "@/lib/actions/recommendations.action";
 import { auth } from "@clerk/nextjs/server";
 
 const RecommendationsPage = async () => {
@@ -10,7 +13,11 @@ const RecommendationsPage = async () => {
   const result = await fetchRecommendations(userId);
   const recommendations = result.success ? result.data : [];
 
-  console.log(recommendations);
+  const enriched = recommendations?.books
+    ? await enrichRecommendations(recommendations.books)
+    : [];
+
+  console.log(enriched);
   return <div>RecommendationsPage</div>;
 };
 

@@ -4,7 +4,7 @@ name: Daily Book Recommendations
 on:
   schedule:
     - cron: "0 3 * * *" # runs every day at 3am UTC
-  workflow_dispatch: # lets you trigger it manually from GitHub too
+  workflow_dispatch:
 
 jobs:
   refresh:

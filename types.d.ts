@@ -47,3 +47,11 @@ export interface FetchGeminiRecommendationPromptProps {
   reading: IBookDocument[];
   tbrBooks: IBookDocument[];
 }
+
+export interface EnrichedBook extends RecommendedBook {
+  coverUrl?: string;
+  description?: string;
+  rating?: number;
+  pageCount?: number;
+  publishYear?: number;
+}
