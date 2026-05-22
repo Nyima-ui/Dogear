@@ -22,3 +22,36 @@ export interface IBookDocument extends IBook, Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface RecommendedBook {
+  title: string;
+  author: string;
+  reason?: string;
+  genre?: string;
+}
+
+export interface IRecommendations {
+  clerkId: string;
+  books: RecommendedBook[];
+  generatedAt: Date;
+}
+
+export interface IRecommendationsDocument extends IRecommendations, Document {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FetchGeminiRecommendationPromptProps {
+  readBooks: IBookDocument[];
+  reading: IBookDocument[];
+  tbrBooks: IBookDocument[];
+}
+
+export interface EnrichedBook extends RecommendedBook {
+  coverUrl?: string;
+  description?: string;
+  rating?: number;
+  pageCount?: number;
+  publishYear?: number;
+}

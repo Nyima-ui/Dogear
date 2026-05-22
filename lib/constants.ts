@@ -1,4 +1,5 @@
 import { Status } from "@/types";
+import { FetchGeminiRecommendationPromptProps } from "@/types";
 
 export const titleMap: Record<string, string> = {
   "/dashboard/log": "My library",
@@ -6,7 +7,6 @@ export const titleMap: Record<string, string> = {
   "/dashboard/overview": "Reading overview",
   "/dashboard/trending": "Trending books",
 };
-
 
 export const styleMapForStatus: Record<Status, string> = {
   Reading:
@@ -23,4 +23,25 @@ export const styleMapForRating: Record<number, string> = {
   3: "flex p-1 rounded-md bg-[#FFE0B2] gap-0.5 w-fit",
   2: "flex p-1 rounded-md bg-[#FFF2C8] gap-0.5 w-fit",
   1: "flex p-1 rounded-md bg-[#FEE2E1] gap-0.5 w-fit",
+};
+
+export const fetchGeminiRecommendationPrompt = ({
+  readBooks,
+  reading,
+  tbrBooks,
+}: FetchGeminiRecommendationPromptProps) => {
+  return `You are a personalized book recommendation engine.
+
+Already read:
+${readBooks.map((b) => `- "${b.title}" by ${b.author}${b.rating ? ` (rated ${b.rating}/5)` : ""}${b.review ? ` — "${b.review}"` : ""}`).join("\n") || "None yet"}
+
+Currently reading:
+${reading.map((b) => `- "${b.title}" by ${b.author}`).join("\n") || "Nothing"}
+
+To-Be-Read list:
+${tbrBooks.map((b) => `- "${b.title}" by ${b.author}`).join("\n") || "Empty"}
+
+Recommend 5 books this reader hasn't read yet, based on their taste.
+Respond ONLY with a JSON array, no markdown, no extra text.
+Format: [{ "title": "", "author": "", "reason": "", "genre": "" }]`;
 };
