@@ -1,7 +1,7 @@
 "use server";
 import Recommendation from "@/database/models/recommendations.model";
 import connectToMongoDB from "@/database/mongoose";
-import { RecommendedBook } from "@/types";
+import { EnrichedBook, RecommendedBook } from "@/types";
 
 export const fetchRecommendations = async (userId: string) => {
   try {
@@ -52,19 +52,18 @@ export const enrichBookWithOpenLibrary = async (
       const worksData = await worksRes.json();
 
       const raw = worksData.description;
-      description = typeof raw === "string" ? raw : raw.value;
+      description = typeof raw === "string" ? raw : raw?.value;
     }
 
     return { coverUrl, rating, description };
-  } catch (e) {
-    return {
-      success: false,
-      error: e,
-    };
+  } catch {
+    return {};
   }
 };
 
-export const enrichRecommendations = async (books: RecommendedBook[]) => {
+export const enrichRecommendations = async (
+  books: RecommendedBook[],
+): Promise<EnrichedBook[]> => {
   const enriched = await Promise.all(
     books.map(async (book) => {
       const extra = await enrichBookWithOpenLibrary(book.title, book.author);

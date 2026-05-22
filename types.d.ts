@@ -38,8 +38,8 @@ export interface IRecommendations {
 
 export interface IRecommendationsDocument extends IRecommendations, Document {
   _id: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface FetchGeminiRecommendationPromptProps {
@@ -49,9 +49,8 @@ export interface FetchGeminiRecommendationPromptProps {
 }
 
 export interface EnrichedBook extends RecommendedBook {
+  _id?: string;
   coverUrl?: string;
   description?: string;
   rating?: number;
-  pageCount?: number;
-  publishYear?: number;
 }

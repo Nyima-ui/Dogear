@@ -3,6 +3,7 @@ import {
   fetchRecommendations,
 } from "@/lib/actions/recommendations.action";
 import { auth } from "@clerk/nextjs/server";
+import RecommendationsCard from "@/components/RecommendationsCard";
 
 const RecommendationsPage = async () => {
   const { userId } = await auth();
@@ -18,7 +19,16 @@ const RecommendationsPage = async () => {
     : [];
 
   console.log(enriched);
-  return <div>RecommendationsPage</div>;
+  return (
+    <div>
+      <div>
+        {enriched.map((b) => (
+          <RecommendationsCard key={b._id} book={b} />
+        ))}
+      </div>
+      <div></div>
+    </div>
+  );
 };
 
 export default RecommendationsPage;

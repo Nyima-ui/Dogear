@@ -1,6 +1,6 @@
-import React from 'react'
+import { EnrichedBook } from "@/types"
 
-const RecommendationsCard = () => {
+const RecommendationsCard = ({book}: {book: EnrichedBook }) => {
   return (
     <div>
       
