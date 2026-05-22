@@ -23,6 +23,7 @@ body {
   --black: #0f0f0f;
 
   --hero-background: #e6ecf1;
+  --card-background: #fffee8;
 
   --border-color: #cfcfcf;
 }
@@ -47,4 +48,6 @@ body {
   --color-hero: var(--hero-background);
 
   --color-stroke: var(--border-color);
+
+  --color-card: var(--card-background);
 }

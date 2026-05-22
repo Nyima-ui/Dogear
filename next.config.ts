@@ -8,9 +8,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.public.blob.vercel-storage.com",
       },
+      {
+        protocol: "https",
+        hostname: "covers.openlibrary.org",
+      },
     ],
   },
-  reactStrictMode: false
+  reactStrictMode: false,
 };
 
 export default nextConfig;

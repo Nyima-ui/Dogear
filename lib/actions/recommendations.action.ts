@@ -32,6 +32,8 @@ export const enrichBookWithOpenLibrary = async (
       { next: { revalidate: 86400 } },
     );
 
+    console.log(`https://openlibrary.org/search.json?q=${query}&limit=1&fields=key,cover_i,ratings_average`)
+
     const searchData = await searchRes.json();
     const book = searchData.docs?.[0];
     if (!book) return {};

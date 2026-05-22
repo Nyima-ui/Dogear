@@ -3,7 +3,7 @@ import {
   fetchRecommendations,
 } from "@/lib/actions/recommendations.action";
 import { auth } from "@clerk/nextjs/server";
-import RecommendationsCard from "@/components/RecommendationsCard";
+import RecommendationList from "@/components/RecommendationList";
 
 const RecommendationsPage = async () => {
   const { userId } = await auth();
@@ -18,15 +18,14 @@ const RecommendationsPage = async () => {
     ? await enrichRecommendations(recommendations.books)
     : [];
 
-  console.log(enriched);
+  const sorted = enriched.sort((a, b) => {
+    if (a.coverUrl && !b.coverUrl) return -1;
+    if (!a.coverUrl && b.coverUrl) return 1;
+    return 0;
+  });
   return (
-    <div>
-      <div>
-        {enriched.map((b) => (
-          <RecommendationsCard key={b._id} book={b} />
-        ))}
-      </div>
-      <div></div>
+    <div className="mt-5">
+      <RecommendationList books={sorted}/>
     </div>
   );
 };
