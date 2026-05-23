@@ -202,8 +202,8 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                 </button>
               </td>
               <td className="font-medium">
-                <div className="group relative pl-0.5">
-                  <span>{b.title}</span>
+                <div className="group relative px-1">
+                  <span className="line-clamp-1 ">{b.title}</span>
                   <button
                     className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm"
                     onClick={() => openForEdit(b)}

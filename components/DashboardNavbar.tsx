@@ -83,7 +83,7 @@ const DashboardNavbar = () => {
           {/* SEARCH BOX  */}
           <div className="flex items-center gap-2 w-full max-w-79 max-md:max-w-none">
             <form className="flex items-center w-full max-w-79 max-md:max-w-none">
-              <div className="flex gap-2 focus-within:ring-1 focus-within:ring-black/70 rounded-2xl items-center p-1 w-full">
+              <div className="flex gap-2 focus-within:ring-1 focus-within:ring-foreground/60 rounded-2xl items-center p-1 w-full">
                 <label htmlFor="search-book" className="sr-only">
                   Search book
                 </label>

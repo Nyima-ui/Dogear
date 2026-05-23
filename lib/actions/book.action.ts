@@ -102,3 +102,21 @@ export const updateBook = async (
 export const deleteBlobUrl = async (url: string) => {
   await del(url);
 };
+
+export const addAsTBR = async (payload: IBook) => {
+  try {
+    await connectToMongoDB();
+
+    const book = await Book.create(payload);
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(book)),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      error: e,
+    };
+  }
+};

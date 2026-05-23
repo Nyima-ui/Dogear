@@ -28,7 +28,7 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
   return (
     <div className="flex gap-12 max-xl:gap-5 items-start w-full">
       <div>
-        <ul className="space-y-3">
+        <ul className="space-y-3 h-150 overflow-y-auto">
           {books.map((b) => (
             <RecommendationsCard key={b._id} book={b} onClick={handleSelect} />
           ))}

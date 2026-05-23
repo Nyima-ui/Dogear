@@ -16,7 +16,7 @@ const SidebarNav = () => {
     <>
       {/* DESKTOP SIDEBAR NAVIGATION */}
       <nav
-        className="border-r border-stroke w-fit h-screen flex flex-col items-center gap-25 px-1.5 max-md:hidden"
+        className="border-r border-stroke w-fit h-screen flex flex-col items-center gap-25 px-1.5 max-md:hidden shrink-0 sticky top-0"
         aria-label="Desktop navigaton"
       >
         <Link href="/dashboard/log" className="mt-8 relative group">
@@ -76,7 +76,7 @@ const SidebarNav = () => {
       >
         <div
           className={cn(
-            "fixed inset-0 z-40 backdrop-blur-sm bg-black/10 transition-all duration-150",
+            "fixed inset-0 z-40 backdrop-blur-xs bg-black/20 transition-all duration-150",
             open
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none",
