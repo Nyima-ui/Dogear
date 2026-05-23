@@ -54,3 +54,15 @@ export interface EnrichedBook extends RecommendedBook {
   description?: string;
   rating?: number;
 }
+
+
+export interface TrendingBook {
+  rank: number;
+  title: string;
+  author: string;
+  coverUrl: string | null;
+  reads: number;
+  publishedYear: number | null;
+  rating: number | null;
+  description: string | null;
+}

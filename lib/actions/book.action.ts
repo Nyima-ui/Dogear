@@ -16,9 +16,11 @@ export const createBook = async (bookPayload: IBook) => {
       data: JSON.parse(JSON.stringify(book)),
     };
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("[createBook ERROR]", errorMessage, e);
     return {
       success: false,
-      error: e,
+      error: errorMessage,
     };
   }
 };
@@ -34,9 +36,11 @@ export const fetchBooksById = async (id: string) => {
       data: JSON.parse(JSON.stringify(books)),
     };
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("[fetchBooksById ERROR]", errorMessage, e);
     return {
       success: false,
-      error: e,
+      error: errorMessage,
     };
   }
 };
@@ -49,7 +53,11 @@ export const deleteBookById = async (id: string | string[]) => {
 
     const books = await Book.find({ _id: { $in: ids } }).select("coverUrl");
 
-    const coverUrls = books.map((b) => b.coverUrl).filter(Boolean);
+    const coverUrls = books
+      .map((b) => b.coverUrl)
+      .filter((url) => url && url.includes("vercel-storage.com"));
+
+    // const coverUrls = books.map((b) => b.coverUrl).filter(Boolean);
 
     if (coverUrls.length > 0) {
       await del(coverUrls);
@@ -63,9 +71,11 @@ export const deleteBookById = async (id: string | string[]) => {
       success: true,
     };
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("[deleteBookById ERROR]", errorMessage, e);
     return {
       success: false,
-      error: e,
+      error: errorMessage,
     };
   }
 };
@@ -91,10 +101,15 @@ export const updateBook = async (
     });
 
     revalidatePath("/dashboard/log");
+    return {
+      success: true,
+    };
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("[updateBook ERROR]", errorMessage, e);
     return {
       success: false,
-      error: e,
+      error: errorMessage,
     };
   }
 };
@@ -109,14 +124,17 @@ export const addAsTBR = async (payload: IBook) => {
 
     const book = await Book.create(payload);
 
+    revalidatePath("/dashboard/log");
     return {
       success: true,
       data: JSON.parse(JSON.stringify(book)),
     };
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("[addAsTBR ERROR]", errorMessage, e);
     return {
       success: false,
-      error: e,
+      error: errorMessage,
     };
   }
 };

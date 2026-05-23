@@ -10,7 +10,6 @@ const LogPage = async () => {
 
   const result = await fetchBooksById(userId);
   const books = result.success ? result.data : [];
-
   return (
     <>
       <BookTable books={books} />

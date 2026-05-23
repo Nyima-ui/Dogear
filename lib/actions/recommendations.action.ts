@@ -14,9 +14,11 @@ export const fetchRecommendations = async (userId: string) => {
       data: rec ? JSON.parse(JSON.stringify(rec)) : null,
     };
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("[fetchRecommendations ERROR]", errorMessage, e);
     return {
       success: false,
-      error: e,
+      error: errorMessage,
     };
   }
 };
@@ -32,7 +34,7 @@ export const enrichBookWithOpenLibrary = async (
       { next: { revalidate: 86400 } },
     );
 
-    console.log(`https://openlibrary.org/search.json?q=${query}&limit=1&fields=key,cover_i,ratings_average`)
+    // console.log(`https://openlibrary.org/search.json?q=${query}&limit=1&fields=key,cover_i,ratings_average`)
 
     const searchData = await searchRes.json();
     const book = searchData.docs?.[0];

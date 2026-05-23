@@ -55,7 +55,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
     try {
       setLoadingDelete(true);
       const count = selectedIds.size;
-      await deleteBookById([...selectedIds]);
+      const result = await deleteBookById([...selectedIds]);
       setIsDeleteModalOpen(false);
 
       toast.success(
@@ -65,8 +65,12 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
       );
 
       setSelectedIds(new Set());
+
+      if (!result.success) {
+        toast.error(`Something went wrong. Please try again.`);
+        return
+      }
     } catch (e) {
-      toast.error(`Something went wrong. Please try again.`);
       console.error("Error deleting rows", e);
     } finally {
       setLoadingDelete(false);

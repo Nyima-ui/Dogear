@@ -45,3 +45,30 @@ Recommend 5 books this reader hasn't read yet, based on their taste.
 Respond ONLY with a JSON array, no markdown, no extra text.
 Format: [{ "title": "", "author": "", "reason": "", "genre": "" }]`;
 };
+
+
+export const hardCoverQuery = `query TrendingBooks {
+  books(
+    limit: 20
+    order_by: { users_read_count: desc }
+  ) {
+    title
+    description
+    rating
+    users_read_count
+    image {
+      url
+    }
+    contributions {
+      author {
+        name
+      }
+    }
+    editions(
+      limit: 1
+      order_by: { release_date: asc }
+    ) {
+      release_date
+    }
+  }
+}`;
