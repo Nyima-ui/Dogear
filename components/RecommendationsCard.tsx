@@ -1,49 +1,26 @@
 "use client";
-import { EnrichedBook, IBook } from "@/types";
+import { EnrichedBook } from "@/types";
 import Button from "./Button";
 import { Image as ImageIcon } from "lucide-react";
-import { toast } from "sonner";
 import { useState } from "react";
-import { useAuth } from "@clerk/nextjs";
-import { addAsTBR } from "@/lib/actions/book.action";
 
 const RecommendationsCard = ({
   book,
   onClick,
+  handleWantToRead,
 }: {
   book: EnrichedBook;
   onClick: (val: EnrichedBook) => void;
+  handleWantToRead: (val: EnrichedBook) => void;
 }) => {
   const [loading, setLoading] = useState(false);
-  const { userId } = useAuth();
 
-  if (!userId) {
-    // TODO: ask claude what do after this
-    //send user to sign up page but my sign up is modal
-    return;
-  }
-
-  const handleWantToRead = async () => {
+  const handleOnClickWantToRead = async () => {
     try {
       setLoading(true);
-      const bookPayload: IBook = {
-        clerkId: userId,
-        title: book.title,
-        author: book.author,
-        status: "TBR",
-        coverUrl: book.coverUrl ? book.coverUrl : "",
-      };
-
-      const result = await addAsTBR(bookPayload);
-
-      if (!result.success) {
-        toast.error("Something went wrong. Please try again.");
-        return;
-      }
-
-      toast.success("Added to your reading list.");
+      await handleWantToRead(book);
     } catch (e) {
-      console.error("Error adding the book as TBR on table", e);
+      console.error("Error adding booking on table.", e);
     } finally {
       setLoading(false);
     }
@@ -87,7 +64,7 @@ const RecommendationsCard = ({
         text="Want to Read"
         loading={loading}
         className="px-3 py-2 text-nowrap max-sm:hidden"
-        onClick={handleWantToRead}
+        onClick={handleOnClickWantToRead}
       />
     </li>
   );

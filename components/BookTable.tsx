@@ -95,7 +95,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
   };
 
   return (
-    <div className="overflow-x-auto h-[80vh] mt-3 w-full border-black/20 rounded-md overflow-y-auto">
+    <div className="overflow-x-auto h-[80vh] mt-3 w-full border-black/20 rounded-md overflow-y-auto relative z-0">
       {selectedIds.size > 0 && (
         <button
           className="flex items-center text-xs cursor-pointer border border-black/10 p-2 gap-1.5 rounded-md my-2 hover:bg-foreground/5"

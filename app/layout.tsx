@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Syne } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,12 @@ const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
+});
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -45,6 +51,7 @@ export default function RootLayout({
           bricolage.variable,
           "font-sans",
           geist.variable,
+          syne.variable,
         )}
       >
         <body className="bg-background text-foreground">

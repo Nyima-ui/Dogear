@@ -50,4 +50,6 @@ body {
   --color-stroke: var(--border-color);
 
   --color-card: var(--card-background);
+
+  --font-syne: var(--font-syne);
 }

@@ -1,17 +1,17 @@
 "use client";
-import { EnrichedBook, IBook } from "@/types";
-import RecommendationsCard from "./RecommendationsCard";
+import { TrendingBook, IBook } from "@/types";
 import { useState } from "react";
+import TrendingBookCard from "./TrendingBookCard";
+import { cn } from "@/lib/utils";
 import { Image as ImageIcon } from "lucide-react";
 import StarRow from "./StarRow";
-import { cn } from "@/lib/utils";
 import Button from "./Button";
+import { useAuth } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { addAsTBR } from "@/lib/actions/book.action";
-import { useAuth } from "@clerk/nextjs";
 
-const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
-  const [selected, setSelected] = useState<EnrichedBook>(books[0]);
+const TrendingList = ({ books }: { books: TrendingBook[] }) => {
+  const [selected, setSelected] = useState<TrendingBook>(books[0]);
   const [expanded, setExpanded] = useState(false);
   const [isDecriptionOpen, setIsDecriptionOpen] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -30,13 +30,13 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
       ? selected.description
       : `${selected.description?.slice(0, CHAR_LIMIT)}...`;
 
-  const handleSelect = (book: EnrichedBook) => {
+  const handleSelect = (book: TrendingBook) => {
     setSelected(book);
     setExpanded(false);
     setIsDecriptionOpen(true);
   };
 
-  const handleWantToRead = async (book: EnrichedBook) => {
+  const handleWantToRead = async (book: TrendingBook) => {
     try {
       setLoading(true);
       const bookPayload: IBook = {
@@ -65,13 +65,13 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
   return (
     <div className="flex gap-8 max-xl:gap-5 items-start w-full h-full justify-between">
       {/* CARD CONTAINER  */}
-      <div className="h-full w-full">
+      <div className="h-full w-[80%] max-xl:w-full">
         <ul className="space-y-3 h-full overflow-y-auto">
-          {books.map((b) => (
-            <RecommendationsCard
-              key={b._id}
+          {books.map((b, idx) => (
+            <TrendingBookCard
+              key={idx}
               book={b}
-              onClick={handleSelect}
+              onSelect={handleSelect}
               handleWantToRead={handleWantToRead}
             />
           ))}
@@ -80,21 +80,26 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
 
       {isDecriptionOpen && (
         <div
-          className="fixed inset-0 bg-black/20 z-10 hidden max-lg:block backdrop-blur-xs"
+          role="presentation"
+          className="fixed inset-0 bg-black/20 z-10 hidden max-xl:block backdrop-blur-xs"
           onClick={() => setIsDecriptionOpen(false)}
         />
       )}
 
       <div
-        aria-hidden={!isDecriptionOpen}
+        role="dialog"
+        inert={!isDecriptionOpen ? true : undefined}
         className={cn(
-          `grow bg-card px-6 py-3 w-[70%] max-xl:w-[80%] shadow-sm rounded-md`,
-          `max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0 max-lg:w-full z-20 max-lg:pb-10`,
-          `max-lg:translate-y-full ${isDecriptionOpen && "max-lg:translate-y-0"} max-lg:transition-transform duration-150 ease-in`,
+          `grow bg-card px-6 py-3 w-[30%] shadow-sm rounded-md`,
+          `max-xl:fixed max-xl:bottom-0 max-xl:left-0 max-xl:right-0 max-xl:w-full z-20 max-xl:pb-10`,
+          `max-xl:translate-y-full ${isDecriptionOpen && "max-xl:translate-y-0"} max-xl:transition-transform duration-150 ease-in`,
         )}
       >
-        <div className="w-52 h-1 bg-primary-700/70 mx-auto rounded-full hidden max-lg:block mb-5"></div>
-        {/* HEAD  */}
+        <div
+          className="w-52 h-1 bg-primary-700/70 mx-auto rounded-full hidden max-xl:block mb-5"
+          aria-hidden="true"
+        />
+
         <div className="flex gap-6 items-center">
           {selected.coverUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -127,11 +132,14 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
             </div>
           </div>
         </div>
-        {/* BODY  */}
+
         <div className="mt-6">
           <p className="overflow-y-auto max-h-100">{displayDescription}</p>
           {isLong && (
             <button
+              aria-label={
+                expanded ? "Show less description" : "Read more about this book"
+              }
               className="cursor-pointer text-sm mt-1 hover:underline"
               onClick={() => setExpanded(!expanded)}
             >
@@ -142,8 +150,8 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
 
         <Button
           text="Want to Read"
-          loading={loading}
           className="px-3 py-2 text-nowrap hidden max-sm:flex mt-5"
+          loading={loading}
           onClick={() => handleWantToRead(selected)}
         />
       </div>
@@ -151,4 +159,4 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
   );
 };
 
-export default RecommendationList;
+export default TrendingList;
