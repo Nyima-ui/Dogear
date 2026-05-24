@@ -46,7 +46,6 @@ Respond ONLY with a JSON array, no markdown, no extra text.
 Format: [{ "title": "", "author": "", "reason": "", "genre": "" }]`;
 };
 
-
 export const hardCoverQuery = `query TrendingBooks {
   books(
     limit: 20
@@ -72,3 +71,18 @@ export const hardCoverQuery = `query TrendingBooks {
     }
   }
 }`;
+
+export const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];

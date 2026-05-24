@@ -67,7 +67,7 @@ const DashboardNavbar = () => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/dashboard/overview"
                   className={cn(
                     `px-2.5 py-1 bg-background inline-block max-sm:text-sm`,
                     title === "Reading overview" &&
