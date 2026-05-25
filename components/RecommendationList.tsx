@@ -66,7 +66,7 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
     <div className="flex gap-8 max-xl:gap-5 items-start w-full h-full justify-between max-md:h-[80vh]">
       {/* CARD CONTAINER  */}
       <div className="w-full">
-        <ul className="space-y-3 h-full overflow-y-auto max-h-148.25 max-md:max-h-157.5">
+        <ul className="space-y-3 h-full overflow-y-auto max-h-148.25 max-md:max-h-157.5 chart-scroll">
           {books.map((b) => (
             <RecommendationsCard
               key={b._id}
@@ -129,7 +129,7 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
         </div>
         {/* BODY  */}
         <div className="mt-6">
-          <p className="overflow-y-auto max-h-100">{displayDescription}</p>
+          <p className="overflow-y-auto max-h-100 chart-scroll">{displayDescription}</p>
           {isLong && (
             <button
               className="cursor-pointer text-sm mt-1 hover:underline"

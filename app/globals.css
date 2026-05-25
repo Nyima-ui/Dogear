@@ -57,6 +57,7 @@ body {
 
 .chart-scroll::-webkit-scrollbar{
   height: 5px;
+  width: 4px;
 }
 .chart-scroll::-webkit-scrollbar-thumb{
   background-color: #afafaf;

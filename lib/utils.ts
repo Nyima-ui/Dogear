@@ -1,3 +1,4 @@
+import { IBookDocument } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -41,4 +42,22 @@ export const formatDate2 = (date: Date | string | undefined): string => {
   const year = d.getFullYear();
 
   return `${day}${suffix} ${month} ${year}`;
+
+  //returnend date, e.g: 	12th May 2026
+};
+
+export const getDaysToComplete = (book: IBookDocument): string => {
+  if (!book.startDate || !book.finishDate) return "N/A";
+
+  const start = new Date(book.startDate);
+  const finish = new Date(book.finishDate);
+  const diffMs = finish.getTime() - start.getTime();
+
+  if (diffMs < 0) return "N/A";
+  
+  const days = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  if (days < 7) return `${days} days`;
+  if (days < 30) return `${Math.round(days / 7)} weeks`;
+  return `${Math.round(days / 30)} months`;
 };
