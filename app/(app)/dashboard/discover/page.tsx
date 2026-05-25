@@ -24,7 +24,7 @@ const RecommendationsPage = async () => {
     return 0;
   });
   return (
-    <div className="mt-5 h-[85%]">
+    <div className="mt-5 h-[85%] overflow-hidden">
       <RecommendationList books={sorted}/>
     </div>
   );

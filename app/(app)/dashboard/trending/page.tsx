@@ -5,7 +5,7 @@ const TrendingPage = async () => {
   const result = await fetchTrendingBooks();
   const trendingBooks = result.success ? (result.data ?? []) : [];
   return (
-    <div className="mt-5 h-[85%]">
+    <div className="mt-5 h-[85%] overflow-hidden">
       <TrendingList books={trendingBooks} />
     </div>
   );

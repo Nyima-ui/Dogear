@@ -14,10 +14,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-interface BarChartProps {
-  books: IBookDocument[];
-}
-
 const ChartConfig = {
   books: {
     label: "Books read:",
@@ -25,7 +21,12 @@ const ChartConfig = {
   },
 };
 
-const BarChart = ({ books }: BarChartProps) => {
+const tickStyle = {
+  fontSize: 14,
+  fill: "#6a6a6a",
+};
+
+const BarChart = ({ books }: { books: IBookDocument[] }) => {
   const chartData = Array.from({ length: 12 }, (_, i) => ({
     month: MONTHS[i],
     books: 0,
@@ -38,13 +39,9 @@ const BarChart = ({ books }: BarChartProps) => {
     }
   });
 
-  const tickStyle = {
-    fontSize: 14,
-    fill: "#6a6a6a",
-  };
   return (
     <div className="border border-primary/30 rounded-md py-6 pl-6 pr-20 max-md:pr-0 mt-5">
-      <div className="overflow-y-auto chart-scroll">
+      <div className="max-sm:overflow-y-auto chart-scroll">
         <div className="max-sm:min-w-120">
           <ChartContainer config={ChartConfig} className="w-full h-67">
             <RechartsBarChart data={chartData} margin={{ left: -40 }}>

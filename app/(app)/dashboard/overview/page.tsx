@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import BarChart from "@/components/BarChart";
 import { fetchBooksById as fetchBooksByUserId } from "@/lib/actions/book.action";
+import OverviewCards from "@/components/OverviewCards";
 
 const OverviewPage = async () => {
   const { userId } = await auth();
@@ -17,6 +18,8 @@ const OverviewPage = async () => {
     <div className="mt-5">
       <h2 className="text-xl text-foreground/80">Books read</h2>
       <BarChart books={books} />
+
+      <OverviewCards books={books} />
     </div>
   );
 };
