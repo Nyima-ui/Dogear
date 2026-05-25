@@ -53,3 +53,14 @@ body {
 
   --font-syne: var(--font-syne);
 }
+
+
+.chart-scroll::-webkit-scrollbar{
+  height: 5px;
+  width: 4px;
+}
+.chart-scroll::-webkit-scrollbar-thumb{
+  background-color: #afafaf;
+  border-radius: 99px;
+  cursor: pointer;
+}

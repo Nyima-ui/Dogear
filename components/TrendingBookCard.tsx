@@ -31,14 +31,17 @@ const TrendingBookCard = ({
   return (
     <li className="bg-card  flex items-center justify-between px-6 py-4 rounded-md gap-6 hover:shadow-md hover:shadow-primary-700/20 hover:bg-primary-500/70 transition-all duration-150 ease-in max-sm:px-3">
       {/* FIRST DIV  */}
-      <div
-        className="flex items-center gap-3 min-w-0 w-[60%] max-lg:items-stretch max-sm:w-full"
+      <button
+        className="flex items-center gap-3 min-w-0 w-[60%] max-lg:items-stretch max-sm:w-full text-left"
         role="button"
         onClick={() => onSelect(book)}
       >
         <div className="flex items-start gap-3 max-lg:flex-col">
           <div className="bg-primary rounded-[3px]">
-            <span className="font-syne text-[25px] p-1 max-lg:p-0.5">
+            <span
+              className="font-syne text-[25px] p-1 max-lg:p-0.5"
+              aria-label={`Rank ${book.rank}`}
+            >
               #{book.rank}
             </span>
           </div>
@@ -57,6 +60,7 @@ const TrendingBookCard = ({
                 strokeWidth={1}
                 className="text-foreground/30"
                 size={34}
+                aria-hidden="true"
               />
             </div>
           )}
@@ -74,11 +78,11 @@ const TrendingBookCard = ({
             <span className="text-nowrap">{book.reads} reads</span>
             <span className="text-nowrap">{book.publishedYear}</span>
             <div className="flex items-center gap-1.5">
-              <span>{book.rating}</span> <Star />
+              <span>{book.rating}</span> <Star aria-hidden="true" />
             </div>
           </div>
         </div>
-      </div>
+      </button>
 
       {/* SECOND DIV  */}
       <div className="flex gap-5 max-lg:hidden">
