@@ -10,6 +10,7 @@ import { titleMap } from "@/lib/constants";
 const SidebarNav = () => {
   const [open, setOpen] = useState(false);
   const pathName = usePathname();
+  console.log(pathName)
   const title = titleMap[pathName] ?? "Dashboard";
 
   return (
@@ -45,7 +46,7 @@ const SidebarNav = () => {
           </li>
           <li className="relative group">
             <Link
-              href={"#"}
+              href={"/reader/uploads"}
               className="p-1 rounded-md hover:bg-primary-600 inline-block"
             >
               <Sparkles strokeWidth={1.7} color="#363636" />
@@ -137,7 +138,7 @@ const SidebarNav = () => {
 
               <li>
                 <Link
-                  href={"#"}
+                  href={"/reader/uploads"}
                   className="flex items-center gap-2 hover:bg-primary-600"
                 >
                   <span className="p-1 rounded-md inline-block">

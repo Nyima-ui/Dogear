@@ -55,7 +55,6 @@ export interface EnrichedBook extends RecommendedBook {
   rating?: number;
 }
 
-
 export interface TrendingBook {
   rank: number;
   title: string;
@@ -65,4 +64,18 @@ export interface TrendingBook {
   publishedYear: number | null;
   rating: number | null;
   description: string | null;
+}
+
+export interface IPdf {
+  pdfUrl: string;
+  coverUrl?: string;
+  title: string;
+  author: string;
+  persona?: string;
+}
+
+export interface IPdfDocument extends IPdf, Document {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -6,6 +6,9 @@ export const titleMap: Record<string, string> = {
   "/dashboard/discover": "For you",
   "/dashboard/overview": "Reading overview",
   "/dashboard/trending": "Trending books",
+  "/reader/new": "",
+  "/reader/chat": "Book chat",
+  "/reader/uploads": "My uploads",
 };
 
 export const styleMapForStatus: Record<Status, string> = {
