@@ -17,7 +17,11 @@ const Footer = () => {
         <nav>
           <ul className="flex gap-4 max-sm:gap-3 justify-end">
             <li>
-              <Link href={"https://github.com/Nyima-ui/Dogear"} target="_blank">
+              <Link
+                href={"https://github.com/Nyima-ui/Dogear"}
+                target="_blank"
+                className="opacity-50 hover:opacity-100 transition-opacity duration-50"
+              >
                 <Image
                   width={24}
                   height={24}
@@ -28,7 +32,11 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link href={"mailto:ntenzin492@gmail.com"} target="_blank">
+              <Link
+                href={"mailto:ntenzin492@gmail.com"}
+                target="_blank"
+                className="opacity-50 hover:opacity-100 transition-opacity duration-50"
+              >
                 <Image
                   width={24}
                   height={24}
@@ -40,7 +48,7 @@ const Footer = () => {
             </li>
           </ul>
         </nav>
-        <p className="mt-2 text-sm sm:text-base">Created by Tenzin Nyima</p>
+        <p className="mt-5 text-sm">Created by Tenzin Nyima</p>
       </div>
     </footer>
   );

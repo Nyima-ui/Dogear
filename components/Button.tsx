@@ -15,7 +15,7 @@ const Button = ({
   return (
     <button
       className={cn(
-        `bg-primary px-4 py-2 rounded-md text-foreground text-sm font-medium cursor-pointer flex items-center gap-1`,
+        `bg-primary px-4 py-2 rounded-md text-foreground text-sm font-medium cursor-pointer flex items-center gap-1 hover:bg-[#edc370] transition-colors duration-100 ease-in`,
         className,
       )}
       disabled={loading}

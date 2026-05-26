@@ -5,7 +5,7 @@ import Button from "./Button";
 
 const HomePageNavbar = () => {
   return (
-    <header className="sticky top-0 bg-hero z-50">
+    <header className="sticky top-0 bg-hero z-50 bg-gradient-to-b from-[#e6ecf1] to-[#e6ecf1]/0 ">
       <nav
         className="flex items-center justify-between px-12.5 py-3 max-sm:px-5"
         aria-label="Main navigation"
@@ -27,7 +27,7 @@ const HomePageNavbar = () => {
           </li>
           <li>
             <SignInButton mode="modal">
-              <Button text="Log in" className="bg-transparent" />
+              <Button text="Log in" className="bg-transparent hover:bg-transparent" />
             </SignInButton>
           </li>
         </ul>
