@@ -3,7 +3,7 @@ import { IPdf } from "@/types";
 import connectToMongoDB from "@/database/mongoose";
 import Pdf from "@/database/models/pdf.model";
 
-export const UploadBookPdf = async (payload: IPdf) => {
+export const createPdf = async (payload: IPdf) => {
   try {
     await connectToMongoDB();
 
@@ -26,6 +26,25 @@ export const UploadBookPdf = async (payload: IPdf) => {
     return {
       success: false,
       error: e instanceof Error ? e.message : String(e),
+    };
+  }
+};
+
+export const updateTotalSegments = async (
+  pdfId: string,
+  totalSegments: number,
+) => {
+  try {
+    await connectToMongoDB();
+
+    await Pdf.findByIdAndUpdate(pdfId, { totalSegments }, { new: true });
+
+    return { success: true };
+  } catch (e) {
+    console.error("[updateTotalSegments]", e);
+    return {
+      success: false,
+      error: e,
     };
   }
 };

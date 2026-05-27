@@ -108,3 +108,7 @@ export const voiceOptions: Record<string, VoiceOptions> = {
     description: "Relaxed Optimist",
   },
 };
+
+
+export const BATCH_SIZE = 20;
+export const BATCH_DELAY_MS = 1000;

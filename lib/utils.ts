@@ -174,3 +174,6 @@ export const parsePdf = async (file: File, extractCover: boolean = true) => {
     );
   }
 };
+
+export const delay = async (ms: number) =>
+  new Promise((res) => setTimeout(res, ms));

@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
 export type BookStatus = "Reading" | "Finished" | "TBR";
 
@@ -92,4 +92,18 @@ export interface Segment {
   text: string;
   segmentIndex: number;
   wordCount: number;
+}
+
+export interface IPdfSegment {
+  pdfId: Schema.Types.ObjectId;
+  text: string;
+  segmentIndex: number;
+  wordCount: number;
+  embedding: number[];
+}
+
+export interface IPdfSegmentDocument extends IPdfDocument, Document {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -7,7 +7,8 @@ import { toast } from "sonner";
 import { voiceOptions } from "@/lib/constants";
 import { upload } from "@vercel/blob/client";
 import { IPdf } from "@/types";
-import { UploadBookPdf } from "../lib/actions/pdf.action";
+import { createPdf, updateTotalSegments } from "../lib/actions/pdf.action";
+import { createPdfSegments } from "@/lib/actions/segments.action";
 
 const PdfUploadForm = () => {
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
@@ -80,9 +81,18 @@ const PdfUploadForm = () => {
         totalSegments: 0,
       };
 
-      const result = await UploadBookPdf(pdfPayload);
+      const result = await createPdf(pdfPayload);
       if (!result.success)
         throw new Error(result.error ?? "Failed to save PDF");
+
+      const pdfId = result.data?._id;
+      const data = await createPdfSegments(pdfId, content);
+
+      if (!data.success)
+        throw new Error(data.error ?? "Failed to save PDF segments");
+
+      await updateTotalSegments(pdfId, data.totalSegments ?? 0);
+      
     } catch (e) {
       console.error("Error uploading pdf", e);
       toast.error("Something went wrong. Please try again.");
@@ -222,7 +232,7 @@ const PdfUploadForm = () => {
       <Button
         text="Start Conversing"
         type="submit"
-        className="w-full justify-center py-3 text-base mt-4 block"
+        className="w-full justify-center py-3 text-base mt-4 flex"
         loading={loading}
       />
     </form>
