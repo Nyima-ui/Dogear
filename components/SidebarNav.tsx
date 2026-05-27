@@ -35,7 +35,7 @@ const SidebarNav = () => {
         <ul className="flex flex-col items-center gap-7">
           <li className="relative group">
             <Link
-              href={"#"}
+              href={"/dashboard/log"}
               className="p-1 rounded-md hover:bg-primary-600 inline-block"
             >
               <Table2 strokeWidth={1.7} color="#363636" />
@@ -126,7 +126,7 @@ const SidebarNav = () => {
             <ul className={cn(`space-y-3`, open ? "opacity-100" : "opacity-0")}>
               <li>
                 <Link
-                  href={"#"}
+                  href={"/dashboard/log"}
                   className="flex items-center gap-2 hover:bg-primary-600"
                 >
                   <span className="p-1 rounded-md inline-block">

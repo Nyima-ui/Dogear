@@ -70,12 +70,26 @@ export interface IPdf {
   pdfUrl: string;
   coverUrl?: string;
   title: string;
+  slug: string;
   author: string;
   persona?: string;
+  totalSegments?: number;
 }
 
 export interface IPdfDocument extends IPdf, Document {
   _id: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface VoiceOptions {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface Segment {
+  text: string;
+  segmentIndex: number;
+  wordCount: number;
 }
