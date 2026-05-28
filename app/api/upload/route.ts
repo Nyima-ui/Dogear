@@ -9,7 +9,7 @@ export const POST = async (request: Request) => {
       token: process.env.BLOB_READ_WRITE_TOKEN,
       body,
       request,
-      onBeforeGenerateToken: async () => {
+      onBeforeGenerateToken: async () => {  
         return {
           allowedContentTypes: [
             "application/pdf",

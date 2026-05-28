@@ -1,11 +1,15 @@
 import { Status } from "@/types";
 import { FetchGeminiRecommendationPromptProps } from "@/types";
+import { VoiceOptions } from "@/types";
 
 export const titleMap: Record<string, string> = {
   "/dashboard/log": "My library",
   "/dashboard/discover": "For you",
   "/dashboard/overview": "Reading overview",
   "/dashboard/trending": "Trending books",
+  "/reader/new": "",
+  "/reader/chat": "Book chat",
+  "/reader/uploads": "My uploads",
 };
 
 export const styleMapForStatus: Record<Status, string> = {
@@ -85,4 +89,39 @@ export const MONTHS = [
   "Oct",
   "Nov",
   "Dec",
+];
+
+export const voiceOptions: Record<string, VoiceOptions> = {
+  adam: {
+    id: "pNInz6obpgDQGcFmaJgB",
+    name: "Adam",
+    description: "Dominant, Firm",
+  },
+  bella: {
+    id: "hpp4J3VqNfWAUOO0d1Us",
+    name: "Bella",
+    description: "Professional, Bright, Warm",
+  },
+  will: {
+    id: "bIHbv24MWmeRgasZH58o",
+    name: "Will",
+    description: "Relaxed Optimist",
+  },
+};
+
+export const BATCH_SIZE = 20;
+export const BATCH_DELAY_MS = 1000;
+
+interface Stage {
+  label: string;
+  progress: number;
+}
+
+const STAGES: Stage[] = [
+  { label: "Parsing PDF...", progress: 10 },
+  { label: "Uploading PDF...", progress: 30 },
+  { label: "Uploading cover...", progress: 45 },
+  { label: "Saving to database...", progress: 55 },
+  { label: "Creating embeddings...", progress: 90 },
+  { label: "Finalizing...", progress: 100 },
 ];

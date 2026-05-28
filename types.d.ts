@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
 export type BookStatus = "Reading" | "Finished" | "TBR";
 
@@ -55,7 +55,6 @@ export interface EnrichedBook extends RecommendedBook {
   rating?: number;
 }
 
-
 export interface TrendingBook {
   rank: number;
   title: string;
@@ -65,4 +64,53 @@ export interface TrendingBook {
   publishedYear: number | null;
   rating: number | null;
   description: string | null;
+}
+
+export interface IPdf {
+  pdfUrl: string;
+  coverUrl?: string;
+  title: string;
+  slug: string;
+  author: string;
+  persona?: string;
+  totalSegments?: number;
+}
+
+export interface IPdfDocument extends IPdf, Document {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface VoiceOptions {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface Segment {
+  text: string;
+  segmentIndex: number;
+  wordCount: number;
+}
+
+export interface IPdfSegment {
+  pdfId: Schema.Types.ObjectId;
+  text: string;
+  segmentIndex: number;
+  wordCount: number;
+  embedding: number[];
+}
+
+export interface IPdfSegmentDocument extends IPdfDocument, Document {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface animateProgressProps {
+  from: number;
+  to: number;
+  durationMs: number;
+  setter: (v: number) => void;
 }

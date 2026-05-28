@@ -109,6 +109,11 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
       const author = formData.get("book-author") as string;
       const review = formData.get("book-review") as string;
 
+      if (status === "None") {
+        toast.error("Please select a status before saving.");
+        return;
+      }
+      
       let coverUrl = initialData?.coverUrl ?? "";
       if (coverFile) {
         const uploadedBookCover = await upload(
@@ -122,11 +127,6 @@ const BookPanel = ({ initialData, onClose }: BookPanelProps) => {
         );
 
         coverUrl = uploadedBookCover.url;
-      }
-
-      if (status === "None") {
-        toast.error("Please select a status before saving.");
-        return;
       }
 
       const payload: IBook = {
