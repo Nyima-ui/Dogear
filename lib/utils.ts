@@ -2,6 +2,7 @@ import { IBookDocument, Segment, animateProgressProps } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { PDFDocumentProxy } from "pdfjs-dist";
 import { twMerge } from "tailwind-merge";
+import { titleMap } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -194,4 +195,11 @@ export const animateProgress = ({
   }, intervalMs);
 
   return timer;
+};
+
+export const getPageTitle = (pathname: string): string => {
+  if (pathname.startsWith("/reader/chat/")) {
+    return "Book chat";
+  }
+  return titleMap[pathname] ?? "";
 };

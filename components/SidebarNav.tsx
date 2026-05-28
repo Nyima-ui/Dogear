@@ -3,15 +3,14 @@ import Image from "next/image";
 import { Table2, Sparkles, PanelLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getPageTitle } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { titleMap } from "@/lib/constants";
 
 const SidebarNav = () => {
   const [open, setOpen] = useState(false);
   const pathName = usePathname();
-  console.log(pathName)
-  const title = titleMap[pathName] ?? "Dashboard";
+  const title = getPageTitle(pathName);
 
   return (
     <>

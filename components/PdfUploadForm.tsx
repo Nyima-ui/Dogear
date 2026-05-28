@@ -10,6 +10,7 @@ import { IPdf } from "@/types";
 import { createPdf, updateTotalSegments } from "../lib/actions/pdf.action";
 import { createPdfSegments } from "@/lib/actions/segments.action";
 import LoadingModal from "./LoadingModal";
+import { useAuth } from "@clerk/nextjs";
 
 const PdfUploadForm = () => {
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
@@ -20,6 +21,8 @@ const PdfUploadForm = () => {
 
   const [progress, setProgress] = useState(0);
   const [stageLabel, setStageLabel] = useState("");
+
+  const { userId } = useAuth();
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -35,8 +38,13 @@ const PdfUploadForm = () => {
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
+      if (!userId) {
+        // TODO send the user somewhere
+        return;
+      }
+
       setLoading(true);
 
       //Get form data
@@ -85,6 +93,7 @@ const PdfUploadForm = () => {
 
       setStageLabel("Saving to database...");
       const pdfPayload: IPdf = {
+        clerkId: userId,
         pdfUrl,
         coverUrl: coverUrl ?? undefined,
         title,
@@ -125,6 +134,8 @@ const PdfUploadForm = () => {
     } finally {
       setLoading(false);
       formRef.current?.reset();
+      setPdfFile(null);
+      setCoverFile(null);
     }
   };
 

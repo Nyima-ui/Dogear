@@ -67,6 +67,7 @@ export interface TrendingBook {
 }
 
 export interface IPdf {
+  clerkId: string; 
   pdfUrl: string;
   coverUrl?: string;
   title: string;

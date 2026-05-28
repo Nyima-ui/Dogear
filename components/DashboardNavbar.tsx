@@ -1,8 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { titleMap } from "@/lib/constants";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn, getPageTitle } from "@/lib/utils";
 import { Search, Plus } from "lucide-react";
 import BookPanel from "./BookPanel";
 import useOutsideClick from "@/hooks/useOutsideClick";
@@ -10,7 +9,7 @@ import { useBookPanel } from "@/contexts/BookPanelContext";
 
 const DashboardNavbar = () => {
   const pathname = usePathname();
-  const title = titleMap[pathname] ?? "Dashboard";
+  const title = getPageTitle(pathname);
 
   const { isOpen, openForCreate, close, editingBook, isSaving } =
     useBookPanel();

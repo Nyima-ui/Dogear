@@ -8,6 +8,7 @@ export const createPdf = async (payload: IPdf) => {
     await connectToMongoDB();
 
     const book = await Pdf.create({
+      clerkId: payload.clerkId,
       pdfUrl: payload.pdfUrl,
       coverUrl: payload.coverUrl,
       title: payload.title,
@@ -42,6 +43,25 @@ export const updateTotalSegments = async (
     return { success: true };
   } catch (e) {
     console.error("[updateTotalSegments]", e);
+    return {
+      success: false,
+      error: e,
+    };
+  }
+};
+
+export const fetchUserPdfs = async (userId: string) => {
+  try {
+    await connectToMongoDB();
+
+    const pdfs = await Pdf.find({ clerkId: userId });
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(pdfs)),
+    };
+  } catch (e) {
+    console.error("[fetchUserPdfs]", e);
     return {
       success: false,
       error: e,
