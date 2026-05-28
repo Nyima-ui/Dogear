@@ -107,3 +107,10 @@ export interface IPdfSegmentDocument extends IPdfDocument, Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface animateProgressProps {
+  from: number;
+  to: number;
+  durationMs: number;
+  setter: (v: number) => void;
+}

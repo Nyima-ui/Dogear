@@ -1,4 +1,4 @@
-import { IBookDocument, Segment } from "@/types";
+import { IBookDocument, Segment, animateProgressProps } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { PDFDocumentProxy } from "pdfjs-dist";
 import { twMerge } from "tailwind-merge";
@@ -177,3 +177,21 @@ export const parsePdf = async (file: File, extractCover: boolean = true) => {
 
 export const delay = async (ms: number) =>
   new Promise((res) => setTimeout(res, ms));
+
+export const animateProgress = ({
+  from,
+  to,
+  durationMs,
+  setter,
+}: animateProgressProps): ReturnType<typeof setInterval> => {
+  const steps = to - from;
+  const intervalMs = durationMs / steps;
+  let current = from;
+  const timer = setInterval(() => {
+    current += 1;
+    setter(current);
+    if (current >= to) clearInterval(timer);
+  }, intervalMs);
+
+  return timer;
+};

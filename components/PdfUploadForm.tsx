@@ -1,7 +1,7 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LucideCloudUpload, LucideImagePlus } from "lucide-react";
-import { cn, parsePdf } from "@/lib/utils";
+import { cn, parsePdf, animateProgress } from "@/lib/utils";
 import Button from "./Button";
 import { toast } from "sonner";
 import { voiceOptions } from "@/lib/constants";
@@ -9,6 +9,7 @@ import { upload } from "@vercel/blob/client";
 import { IPdf } from "@/types";
 import { createPdf, updateTotalSegments } from "../lib/actions/pdf.action";
 import { createPdfSegments } from "@/lib/actions/segments.action";
+import LoadingModal from "./LoadingModal";
 
 const PdfUploadForm = () => {
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
@@ -16,6 +17,9 @@ const PdfUploadForm = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const [progress, setProgress] = useState(0);
+  const [stageLabel, setStageLabel] = useState("");
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -44,19 +48,26 @@ const PdfUploadForm = () => {
       const persona = formData.get("assistant") as string;
 
       //Parse pdf
+      setStageLabel("Parsing PDF...");
+      setProgress(5);
       const { coverBlob, content } = await parsePdf(pdfFile, !coverFile);
       const finalCover = coverFile ?? coverBlob;
       if (!finalCover) throw new Error();
+      setProgress(10);
 
       //Upload pdf file
+      setStageLabel("Uploading PDF...");
+      setProgress(15);
       const uploadedPdfBlob = await upload(`${slug}_pdf`, pdfFile, {
         access: "public",
         handleUploadUrl: "/api/upload",
         contentType: "application/pdf",
       });
       const pdfUrl = uploadedPdfBlob.url;
+      setProgress(30);
 
       //Upload pdf cover
+      setStageLabel("Uploading cover...");
       let coverUrl: string | null = null;
       if (finalCover) {
         const uploadedCoverBlob = await upload(
@@ -70,7 +81,9 @@ const PdfUploadForm = () => {
         );
         coverUrl = uploadedCoverBlob.url;
       }
+      setProgress(45);
 
+      setStageLabel("Saving to database...");
       const pdfPayload: IPdf = {
         pdfUrl,
         coverUrl: coverUrl ?? undefined,
@@ -84,15 +97,28 @@ const PdfUploadForm = () => {
       const result = await createPdf(pdfPayload);
       if (!result.success)
         throw new Error(result.error ?? "Failed to save PDF");
+      setProgress(55);
 
+      setStageLabel("Creating embeddings...");
       const pdfId = result.data?._id;
+
+      //for progress animation
+      const embeddingTimer = animateProgress({
+        from: 55,
+        to: 88,
+        durationMs: 15000,
+        setter: setProgress,
+      });
       const data = await createPdfSegments(pdfId, content);
+      clearInterval(embeddingTimer);
 
       if (!data.success)
         throw new Error(data.error ?? "Failed to save PDF segments");
+      setProgress(90);
 
+      setStageLabel("Finalizing...");
       await updateTotalSegments(pdfId, data.totalSegments ?? 0);
-      
+      setProgress(100);
     } catch (e) {
       console.error("Error uploading pdf", e);
       toast.error("Something went wrong. Please try again.");
@@ -102,8 +128,27 @@ const PdfUploadForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (loading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [loading]);
+
   return (
-    <form className="mt-13 w-full max-w-130 space-y-10" onSubmit={handleSubmit}>
+    <form
+      className="mt-13 w-full max-w-130 space-y-10"
+      onSubmit={handleSubmit}
+      ref={formRef}
+    >
+      {loading && (
+        <LoadingModal
+          title={pdfFile?.name}
+          progress={progress}
+          stageLabel={stageLabel}
+        />
+      )}
       <div className="space-y-6">
         {/* PDF  */}
         <div className="space-y-3">

@@ -109,6 +109,19 @@ export const voiceOptions: Record<string, VoiceOptions> = {
   },
 };
 
-
 export const BATCH_SIZE = 20;
 export const BATCH_DELAY_MS = 1000;
+
+interface Stage {
+  label: string;
+  progress: number;
+}
+
+const STAGES: Stage[] = [
+  { label: "Parsing PDF...", progress: 10 },
+  { label: "Uploading PDF...", progress: 30 },
+  { label: "Uploading cover...", progress: 45 },
+  { label: "Saving to database...", progress: 55 },
+  { label: "Creating embeddings...", progress: 90 },
+  { label: "Finalizing...", progress: 100 },
+];
