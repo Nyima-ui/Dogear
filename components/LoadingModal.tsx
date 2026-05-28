@@ -12,11 +12,19 @@ const LoadingModal = ({
   stageLabel,
 }: LoadingModalProps) => {
   return (
-    <div className="fixed inset-0 h-full bg-black/20 z-10 backdrop-blur-xs flex items-center justify-center">
+    <div
+      className="fixed inset-0 h-full bg-black/20 z-10 backdrop-blur-xs flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loading-modal-title"
+    >
       <div className="bg-background w-[90%] max-w-125 py-6 px-10 rounded-md">
-        <h1 className="font-medium text-xl text-center max-sm:text-base">
+        <h2
+          className="font-medium text-xl text-center max-sm:text-base"
+          id="loading-modal-title"
+        >
           Uploading your PDF
-        </h1>
+        </h2>
         <p className="text-center mt-2 leading-tight max-sm:text-sm">
           This may take a moment depending on the length of your book.
         </p>
