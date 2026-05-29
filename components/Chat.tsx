@@ -1,18 +1,14 @@
+"use client";
 import { IPdfDocument } from "@/types";
 import Image from "next/image";
-import { Mic } from "lucide-react";
+import { Mic, Phone } from "lucide-react";
+import { useVapi } from "@/hooks/useVapi";
 
 interface ChatProps {
   pdf: IPdfDocument;
 }
 
-const dummyText =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,";
-
-const dummyText2 =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-
-const UserPrompt = ({ message = dummyText }: { message?: string }) => {
+const UserPrompt = ({ message }: { message?: string }) => {
   return (
     <div className="mt-5 pl-35 max-sm:pl-8">
       <p className="ml-auto p-2 rounded-md bg-primary-500">{message}</p>
@@ -20,7 +16,7 @@ const UserPrompt = ({ message = dummyText }: { message?: string }) => {
   );
 };
 
-const AgentMessage = ({ message = dummyText2 }: { message?: string }) => {
+const AgentMessage = ({ message }: { message?: string }) => {
   return (
     <div className="mt-5">
       <p className="max-w-120 mr-auto p-2 rounded-md bg-primary-400">
@@ -30,7 +26,12 @@ const AgentMessage = ({ message = dummyText2 }: { message?: string }) => {
   );
 };
 
-const ChatHeader = ({ pdf }: { pdf: IPdfDocument }) => {
+interface ChatHeaderProps {
+  pdf: IPdfDocument;
+  status: string;
+}
+
+const ChatHeader = ({ pdf, status }: ChatHeaderProps) => {
   return (
     <header className="bg-primary-800 flex text-foreground gap-6 p-2 drop-shadow-lg">
       <div>
@@ -53,9 +54,9 @@ const ChatHeader = ({ pdf }: { pdf: IPdfDocument }) => {
         </div>
 
         <div className="flex items-center gap-2.5 text-sm">
-          <div className="py-0.5 pl-1.25 pr-2 flex items-center bg-background rounded-md gap-0.5">
+          <div className="py-0.5 pl-1.25 pr-2 flex items-center bg-background rounded-md gap-1.5">
             <span className="size-2 bg-[#88EFAB] inline-block rounded-full" />
-            <span>Listening</span>
+            <span>{status}</span>
           </div>
           <div className="py-0.5 px-1.5 bg-background rounded-md">
             <span>Voice:</span>
@@ -68,27 +69,84 @@ const ChatHeader = ({ pdf }: { pdf: IPdfDocument }) => {
 };
 
 const Chat = ({ pdf }: ChatProps) => {
+  const {
+    start,
+    stop,
+    currentAssistantMessage,
+    currentUserMessage,
+    messages,
+    status,
+  } = useVapi(pdf);
+
+  const getStatusDisplay = () => {
+    switch (status) {
+      case "connecting":
+        return { label: "Connecting..." };
+      case "starting":
+        return { label: "Starting..." };
+      case "listening":
+        return { label: "Listening..." };
+      case "thinking":
+        return { label: "Thinking..." };
+      case "speaking":
+        return { label: "Speaking..." };
+      default:
+        return { label: "Ready" };
+    }
+  };
+  const statusDisplay = getStatusDisplay();
   return (
     <div className="mx-auto max-w-165 rounded-md overflow-hidden flex flex-col justify-between h-full relative">
-      <ChatHeader pdf={pdf} />
+      <ChatHeader pdf={pdf} status={statusDisplay.label} />
       <ul className="h-full overflow-y-auto chart-scroll pb-30">
-        <li>
-          <UserPrompt />
-        </li>
-        <li>
-          <AgentMessage />
-        </li>
+        {messages.map((msg, index) =>
+          msg.role === "user" ? (
+            <li key={index}>
+              <UserPrompt message={msg.text} />
+            </li>
+          ) : (
+            <li key={index}>
+              <AgentMessage message={msg.text} />
+            </li>
+          ),
+        )}
+
+        {currentUserMessage && (
+          <li>
+            <UserPrompt message={currentUserMessage} />
+          </li>
+        )}
+        {currentAssistantMessage && (
+          <li>
+            <AgentMessage message={currentAssistantMessage} />
+          </li>
+        )}
       </ul>
 
       <form className="border border-primary/30 rounded-md bg-primary-300 mt-10 px-2 py-3 flex items-center justify-between absolute bottom-0 w-full">
         <p className="text-foreground/60">Ask anything about: {pdf.title}</p>
-        <button
-          className="cursor-pointer p-1.5 bg-primary rounded-full hover:scale-105 transition-transform duration-100"
-          type="button"
-          aria-label="Start recording"
-        >
-          <Mic className="text-foreground" size={20} strokeWidth={1.7} />
-        </button>
+        <div className="space-x-3">
+          <button
+            className="cursor-pointer p-1.5 bg-primary rounded-full hover:scale-105 transition-transform duration-100"
+            type="button"
+            aria-label="Start recording"
+            onClick={start}
+          >
+            <Mic className="text-foreground" size={24} strokeWidth={1.7} />
+          </button>
+          <button
+            className="cursor-pointer rounded-full transition-all duration-200 border border-foreground/10 bg-red-300 hover:bg-red-400 active:border-black p-1.5 group"
+            type="button"
+            aria-label="End session"
+            onClick={stop}
+          >
+            <Phone
+              className="text-foreground rotate-135 transition-all duration-200 group-hover:text-background"
+              size={24}
+              strokeWidth={1.7}
+            />
+          </button>
+        </div>
       </form>
     </div>
   );
