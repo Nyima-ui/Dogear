@@ -1,4 +1,5 @@
 "use server";
+import { unstable_cache } from "next/cache";
 import { IPdf } from "@/types";
 import connectToMongoDB from "@/database/mongoose";
 import Pdf from "@/database/models/pdf.model";
@@ -68,3 +69,25 @@ export const fetchUserPdfs = async (userId: string) => {
     };
   }
 };
+
+export const fetchPdfBySlug = unstable_cache(
+  async (slug: string) => {
+    try {
+      await connectToMongoDB();
+
+      const pdfBook = await Pdf.findOne({ slug });
+
+      return {
+        success: true,
+        data: JSON.parse(JSON.stringify(pdfBook)),
+      };
+    } catch (e) {
+      return {
+        success: false,
+        error: e,
+      };
+    }
+  },
+  ["pdf-slug"],
+  { revalidate: 60 }
+);
