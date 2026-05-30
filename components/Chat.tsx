@@ -3,6 +3,7 @@ import { IPdfDocument } from "@/types";
 import Image from "next/image";
 import { Mic, Phone } from "lucide-react";
 import { useVapi } from "@/hooks/useVapi";
+import { useEffect, useRef } from "react";
 
 interface ChatProps {
   pdf: IPdfDocument;
@@ -78,6 +79,18 @@ const Chat = ({ pdf }: ChatProps) => {
     status,
   } = useVapi(pdf);
 
+  const bottomRef = useRef<HTMLLIElement>(null);
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
+  const isUserScrolledUp = useRef(false);
+
+  const handleScroll = () => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const distanceFromButton = el.scrollHeight - el.scrollTop - el.clientHeight;
+    isUserScrolledUp.current = distanceFromButton > 100;
+  };
+
   const getStatusDisplay = () => {
     switch (status) {
       case "connecting":
@@ -94,11 +107,23 @@ const Chat = ({ pdf }: ChatProps) => {
         return { label: "Ready" };
     }
   };
+
   const statusDisplay = getStatusDisplay();
+
+  useEffect(() => {
+    if (!isUserScrolledUp.current) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, currentAssistantMessage, currentUserMessage]);
+
   return (
     <div className="mx-auto max-w-165 rounded-md overflow-hidden flex flex-col justify-between h-full relative">
       <ChatHeader pdf={pdf} status={statusDisplay.label} />
-      <ul className="h-full overflow-y-auto chart-scroll pb-30">
+      <ul
+        className="h-full overflow-y-auto chart-scroll pb-30"
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
+      >
         {messages.map((msg, index) =>
           msg.role === "user" ? (
             <li key={index}>
@@ -121,6 +146,8 @@ const Chat = ({ pdf }: ChatProps) => {
             <AgentMessage message={currentAssistantMessage} />
           </li>
         )}
+
+        <li ref={bottomRef} />
       </ul>
 
       <form className="border border-primary/30 rounded-md bg-primary-300 mt-10 px-2 py-3 flex items-center justify-between absolute bottom-0 w-full">
