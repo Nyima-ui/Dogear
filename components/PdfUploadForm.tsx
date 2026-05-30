@@ -44,7 +44,7 @@ const PdfUploadForm = () => {
     e.preventDefault();
     try {
       if (!userId) {
-        // TODO send the user somewhere
+        router.push("/");
         return;
       }
 
@@ -258,7 +258,6 @@ const PdfUploadForm = () => {
         </div>
       </div>
 
-      {/* TODO : once integrated Elevenlabs, write proper voice names and desc  */}
       <div className="space-y-4">
         <legend className="font-medium block">Choose Assistant Voice</legend>
         <fieldset className="grid grid-cols-3 gap-3 max-sm:grid-cols-2">

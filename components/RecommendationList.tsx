@@ -9,6 +9,7 @@ import Button from "./Button";
 import { toast } from "sonner";
 import { addAsTBR } from "@/lib/actions/book.action";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
   const [selected, setSelected] = useState<EnrichedBook>(books[0]);
@@ -16,10 +17,10 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
   const [isDecriptionOpen, setIsDecriptionOpen] = useState(true);
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+  const router = useRouter();
 
   if (!userId) {
-    // TODO: ask claude what do after this
-    //send user to sign up page but my sign up is modal
+    router.push("/");
     return;
   }
 
@@ -129,7 +130,9 @@ const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
         </div>
         {/* BODY  */}
         <div className="mt-6">
-          <p className="overflow-y-auto max-h-100 chart-scroll">{displayDescription}</p>
+          <p className="overflow-y-auto max-h-100 chart-scroll">
+            {displayDescription}
+          </p>
           {isLong && (
             <button
               className="cursor-pointer text-sm mt-1 hover:underline"

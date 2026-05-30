@@ -9,6 +9,7 @@ import Button from "./Button";
 import { useAuth } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { addAsTBR } from "@/lib/actions/book.action";
+import { useRouter } from "next/navigation";
 
 const TrendingList = ({ books }: { books: TrendingBook[] }) => {
   const [selected, setSelected] = useState<TrendingBook>(books[0]);
@@ -16,10 +17,10 @@ const TrendingList = ({ books }: { books: TrendingBook[] }) => {
   const [isDecriptionOpen, setIsDecriptionOpen] = useState(true);
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+  const router = useRouter();
 
   if (!userId) {
-    // TODO: ask claude what do after this
-    //send user to sign up page but my sign up is modal
+    router.push("/");
     return;
   }
 
@@ -134,7 +135,9 @@ const TrendingList = ({ books }: { books: TrendingBook[] }) => {
         </div>
 
         <div className="mt-6">
-          <p className="overflow-y-auto max-h-100 chart-scroll">{displayDescription}</p>
+          <p className="overflow-y-auto max-h-100 chart-scroll">
+            {displayDescription}
+          </p>
           {isLong && (
             <button
               aria-label={

@@ -4,12 +4,12 @@ import {
 } from "@/lib/actions/recommendations.action";
 import { auth } from "@clerk/nextjs/server";
 import RecommendationList from "@/components/RecommendationList";
+import { redirect } from "next/navigation";
 
 const RecommendationsPage = async () => {
   const { userId } = await auth();
   if (!userId) {
-    // TODO: do something if user isn't logged in
-    return;
+    redirect("/");
   }
   const result = await fetchRecommendations(userId);
   const recommendations = result.success ? result.data : [];
@@ -25,7 +25,7 @@ const RecommendationsPage = async () => {
   });
   return (
     <div className="mt-5 h-[85%] overflow-hidden">
-      <RecommendationList books={sorted}/>
+      <RecommendationList books={sorted} />
     </div>
   );
 };

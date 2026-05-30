@@ -2,14 +2,12 @@ import { auth } from "@clerk/nextjs/server";
 import BarChart from "@/components/BarChart";
 import { fetchBooksById as fetchBooksByUserId } from "@/lib/actions/book.action";
 import OverviewCards from "@/components/OverviewCards";
+import { redirect } from "next/navigation";
 
 const OverviewPage = async () => {
   const { userId } = await auth();
 
-  if (!userId) {
-    // TODO: send user to somewhere
-    return;
-  }
+  if (!userId) redirect("/");
 
   const result = await fetchBooksByUserId(userId);
   const books = result.success ? (result.data ?? []) : [];

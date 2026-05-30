@@ -4,12 +4,12 @@ import { auth } from "@clerk/nextjs/server";
 import { IPdfDocument } from "@/types";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { redirect } from "next/navigation";
 
 const UserPdfsPage = async () => {
   const { userId } = await auth();
 
-  //TODO: REDIRECT USER TO SIGN IN or show Modal
-  if (!userId) return null;
+  if (!userId) redirect("/");
 
   const result = await fetchUserPdfs(userId);
   const pdfs: IPdfDocument[] = result.success ? result.data : [];
@@ -18,7 +18,7 @@ const UserPdfsPage = async () => {
     <div>
       <h1 className="text-[31px] max-md:hidden">My books</h1>
       <ul
-       aria-label="My books"
+        aria-label="My books"
         className="mt-6 gap-x-6 max-sm:gap-x-4 gap-y-5 grid justify-items-center grid-cols-7 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2"
       >
         {pdfs.map((pdf) => (
