@@ -1,16 +1,17 @@
 "use client";
 import Image from "next/image";
-import { Table2, Sparkles, PanelLeft } from "lucide-react";
+import { Table2, Sparkles, PanelLeft, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { cn, getPageTitle } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { titleMap } from "@/lib/constants";
+import { useClerk } from "@clerk/nextjs";
 
 const SidebarNav = () => {
   const [open, setOpen] = useState(false);
   const pathName = usePathname();
   const title = getPageTitle(pathName);
+  const { signOut } = useClerk();
 
   return (
     <>
@@ -55,6 +56,16 @@ const SidebarNav = () => {
             </span>
           </li>
         </ul>
+
+        <button
+          className="mt-73 relative group p-1 rounded-md hover:bg-primary-600 inline-block cursor-pointer"
+          onClick={() => signOut({ redirectUrl: "/" })}
+        >
+          <LogOut strokeWidth={1.7} color="#363636" size={22}/>
+          <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+5px)] text-nowrap hidden group-hover:block z-30">
+            Logout
+          </span>
+        </button>
       </nav>
 
       {/* MOBILE SIDEBAR NAVIGATION  */}
