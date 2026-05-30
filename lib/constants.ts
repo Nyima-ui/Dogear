@@ -8,7 +8,7 @@ export const titleMap: Record<string, string> = {
   "/dashboard/overview": "Reading overview",
   "/dashboard/trending": "Trending books",
   "/reader/new": "",
-  "/reader/chat/": "Book chat",
+  "/reader/chat/": "Book discussion",
   "/reader/uploads": "My books",
 };
 

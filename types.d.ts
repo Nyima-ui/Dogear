@@ -115,3 +115,24 @@ export interface animateProgressProps {
   durationMs: number;
   setter: (v: number) => void;
 }
+
+
+export interface VapiMessage {
+  type: string;
+  role: string;
+  transcriptType: string;
+  transcript: string;
+}
+
+export type CallStatus =
+  | "idle"
+  | "connecting"
+  | "starting"
+  | "listening"
+  | "thinking"
+  | "speaking";
+
+export interface Messages {
+  role: string;
+  text: string;
+}
