@@ -11,6 +11,7 @@ import { createPdf, updateTotalSegments } from "../lib/actions/pdf.action";
 import { createPdfSegments } from "@/lib/actions/segments.action";
 import LoadingModal from "./LoadingModal";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const PdfUploadForm = () => {
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
@@ -21,6 +22,8 @@ const PdfUploadForm = () => {
 
   const [progress, setProgress] = useState(0);
   const [stageLabel, setStageLabel] = useState("");
+
+  const router = useRouter();
 
   const { userId } = useAuth();
 
@@ -136,6 +139,7 @@ const PdfUploadForm = () => {
       formRef.current?.reset();
       setPdfFile(null);
       setCoverFile(null);
+      router.push("/reader/uploads");
     }
   };
 

@@ -3,6 +3,7 @@ import { IPdfDocument } from "@/types";
 import Vapi from "@vapi-ai/web";
 import { useRef, useState, useEffect } from "react";
 import { CallStatus, Messages, VapiMessage } from "@/types";
+import { voiceOptions } from "@/lib/constants";
 
 const VAPI_API_KEY = process.env.NEXT_PUBLIC_VAPI_API_KEY!;
 const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_KEY!;
@@ -89,13 +90,20 @@ export const useVapi = (pdf: IPdfDocument) => {
     };
   }, []);
 
+  const selectedVoice =
+    voiceOptions[pdf.persona ?? "elliot"] ?? voiceOptions["elliot"];
+
   // START VOICE CALL
   const start = async () => {
     setStatus("connecting");
     try {
       getVapi().start(ASSISTANT_ID, {
         variableValues: {
-          bookId: pdf._id,
+          pdfId: pdf._id,
+        },
+        voice: {
+          provider: "openai",
+          voiceId: selectedVoice.id,
         },
         firstMessage: `Hi! I'm your reading buddy. What would you like to discuss about ${pdf.title} by ${pdf.author}`,
       });

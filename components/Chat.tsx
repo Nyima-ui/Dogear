@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Mic, Phone } from "lucide-react";
 import { useVapi } from "@/hooks/useVapi";
 import { useEffect, useRef } from "react";
+import { voiceOptions } from "@/lib/constants";
 
 interface ChatProps {
   pdf: IPdfDocument;
@@ -61,7 +62,11 @@ const ChatHeader = ({ pdf, status }: ChatHeaderProps) => {
           </div>
           <div className="py-0.5 px-1.5 bg-background rounded-md">
             <span>Voice:</span>
-            <span className="pl-1">Rachel</span>
+            <span className="pl-1">
+              {pdf.persona
+                ? voiceOptions[pdf.persona].name
+                : voiceOptions["elliot"].name}
+            </span>
           </div>
         </div>
       </div>
@@ -116,6 +121,8 @@ const Chat = ({ pdf }: ChatProps) => {
     }
   }, [messages, currentAssistantMessage, currentUserMessage]);
 
+  const onCall = status !== "idle";
+
   return (
     <div className="mx-auto max-w-165 rounded-md overflow-hidden flex flex-col justify-between h-full relative">
       <ChatHeader pdf={pdf} status={statusDisplay.label} />
@@ -152,27 +159,30 @@ const Chat = ({ pdf }: ChatProps) => {
 
       <form className="border border-primary/30 rounded-md bg-primary-300 mt-10 px-2 py-3 flex items-center justify-between absolute bottom-0 w-full">
         <p className="text-foreground/60">Ask anything about: {pdf.title}</p>
-        <div className="space-x-3">
-          <button
-            className="cursor-pointer p-1.5 bg-primary rounded-full hover:scale-105 transition-transform duration-100"
-            type="button"
-            aria-label="Start recording"
-            onClick={start}
-          >
-            <Mic className="text-foreground" size={24} strokeWidth={1.7} />
-          </button>
-          <button
-            className="cursor-pointer rounded-full transition-all duration-200 border border-foreground/10 bg-red-300 hover:bg-red-400 active:border-black p-1.5 group"
-            type="button"
-            aria-label="End session"
-            onClick={stop}
-          >
-            <Phone
-              className="text-foreground rotate-135 transition-all duration-200 group-hover:text-background"
-              size={24}
-              strokeWidth={1.7}
-            />
-          </button>
+        <div className="space-x-3 space-y-3">
+          {onCall ? (
+            <button
+              className="cursor-pointer rounded-full transition-all duration-200 border border-foreground/10 bg-red-300 hover:bg-red-400 active:border-black p-1.5 group"
+              type="button"
+              aria-label="End session"
+              onClick={stop}
+            >
+              <Phone
+                className="text-foreground rotate-135 transition-all duration-200 group-hover:text-background"
+                size={24}
+                strokeWidth={1.7}
+              />
+            </button>
+          ) : (
+            <button
+              className="cursor-pointer p-1.5 bg-primary rounded-full hover:scale-105 transition-transform duration-100"
+              type="button"
+              aria-label="Start recording"
+              onClick={start}
+            >
+              <Mic className="text-foreground" size={24} strokeWidth={1.7} />
+            </button>
+          )}
         </div>
       </form>
     </div>
