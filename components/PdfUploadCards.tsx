@@ -23,7 +23,7 @@ const PdfUploadCards = ({ pdf }: { pdf: IPdfDocument }) => {
           )}
         </div>
         <div className="pl-6 mt-2">
-          <p className="truncate">{pdf.title}</p>
+          <p className="max-w-44.5 truncate">{pdf.title}</p>
           <p className="text-sm text-foreground/70">{pdf.author}</p>
         </div>
       </Link>

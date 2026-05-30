@@ -92,20 +92,33 @@ export const MONTHS = [
 ];
 
 export const voiceOptions: Record<string, VoiceOptions> = {
-  adam: {
-    id: "pNInz6obpgDQGcFmaJgB",
-    name: "Adam",
-    description: "Dominant, Firm",
+  elliot: {
+    id: "onyx",           
+    provider: "openai",
+    name: "Elliot",    
+    gender: "Male",
+    description: "Confident & clear",
   },
-  bella: {
-    id: "hpp4J3VqNfWAUOO0d1Us",
-    name: "Bella",
-    description: "Professional, Bright, Warm",
+  nova: {
+    id: "nova",
+    provider: "openai",
+    name: "Nova",
+    gender: "Female",
+    description: "Friendly & warm",
   },
-  will: {
-    id: "bIHbv24MWmeRgasZH58o",
-    name: "Will",
-    description: "Relaxed Optimist",
+  shimmer: {
+    id: "shimmer",
+    provider: "openai",
+    name: "Shimmer",
+    gender: "Female",
+    description: "Calm & natural",
+  },
+  echo: {
+    id: "echo",
+    provider: "openai",
+    name: "Echo",
+    gender: "Male",
+    description: "Relaxed & easy to listen to",
   },
 };
 

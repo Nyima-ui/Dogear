@@ -83,11 +83,13 @@ export interface IPdfDocument extends IPdf, Document {
   updatedAt: Date;
 }
 
-export interface VoiceOptions {
+type VoiceOptions = {
   id: string;
+  provider: "vapi" | "openai" | "playht";
   name: string;
+  gender: "Male" | "Female";
   description: string;
-}
+};
 
 export interface Segment {
   text: string;
