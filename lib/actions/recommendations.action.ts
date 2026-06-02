@@ -2,6 +2,7 @@
 import Recommendation from "@/database/models/recommendations.model";
 import connectToMongoDB from "@/database/mongoose";
 import { EnrichedBook, RecommendedBook } from "@/types";
+import { buildEnrichQuery } from "../utils";
 
 export const fetchRecommendations = async (userId: string) => {
   try {
@@ -63,15 +64,65 @@ export const enrichBookWithOpenLibrary = async (
   }
 };
 
+export const enrichBookWithHardCover = async (
+  title: string,
+  author: string,
+): Promise<{ coverUrl?: string; rating?: number; description?: string }> => {
+  try {
+    const query = buildEnrichQuery(title, author);
+
+    const response = await fetch("https://api.hardcover.app/v1/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${process.env.HARDCOVER_BEARER_TOKEN}`,
+      },
+      body: JSON.stringify({ query }),
+      next: { revalidate: 86400 },
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new Error("Hardcover: failed to fetch recommended books.");
+    }
+
+    const json = await response.json();
+    const book = json?.data?.books?.[0];
+    if (!book) return {};
+
+    return {
+      coverUrl: book.image?.url ?? undefined,
+      rating: book.rating ? parseFloat(book.rating.toFixed(1)) : undefined,
+      description: book.description ?? undefined,
+    };
+  } catch {
+    return {};
+  }
+};
+
 export const enrichRecommendations = async (
   books: RecommendedBook[],
 ): Promise<EnrichedBook[]> => {
   const enriched = await Promise.all(
     books.map(async (book) => {
-      const extra = await enrichBookWithOpenLibrary(book.title, book.author);
+      const extra = await enrichBookWithHardCover(book.title, book.author);
       return { ...book, ...extra };
     }),
   );
-
   return enriched;
+};
+
+export const testHardcover = async () => {
+  const response = await fetch("https://api.hardcover.app/v1/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `${process.env.HARDCOVER_BEARER_TOKEN}`,
+    },
+    body: JSON.stringify({ query: `query { books(limit: 1) { title } }` }),
+  });
+
+  const json = await response.json();
+  console.log("status:", response.status);
+  console.log("result:", JSON.stringify(json, null, 2));
 };

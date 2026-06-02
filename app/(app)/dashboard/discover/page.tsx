@@ -23,6 +23,7 @@ const RecommendationsPage = async () => {
     if (!a.coverUrl && b.coverUrl) return 1;
     return 0;
   });
+
   return (
     <div className="mt-5 h-[85%] overflow-hidden">
       <RecommendationList books={sorted} />

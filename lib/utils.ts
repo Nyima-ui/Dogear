@@ -203,3 +203,23 @@ export const getPageTitle = (pathname: string): string => {
   }
   return titleMap[pathname] ?? "";
 };
+
+
+export const buildEnrichQuery =  (title: string, author: string) => `
+  query EnrichBook {
+    books(
+      where: {
+        title: { _eq: "${title.replace(/"/g, '\\"')}" }
+      }
+      limit: 1
+      order_by: { users_read_count: desc }
+    ) {
+      title
+      description
+      rating
+      image {
+        url
+      }
+    }
+  }
+`;

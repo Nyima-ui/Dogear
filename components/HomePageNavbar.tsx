@@ -21,14 +21,14 @@ const HomePageNavbar = () => {
 
         <ul className="flex gap-4 max-sm:gap-2">
           <li>
-            <SignUpButton mode="modal">
-              <Button text="Sign up" />
-            </SignUpButton>
-          </li>
-          <li>
             <SignInButton mode="modal">
               <Button text="Log in" className="bg-transparent" />
             </SignInButton>
+          </li>
+          <li>
+            <SignUpButton mode="modal">
+              <Button text="Sign up" />
+            </SignUpButton>
           </li>
         </ul>
       </nav>
