@@ -1,18 +1,38 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { cn, getPageTitle } from "@/lib/utils";
 import { Search, Plus } from "lucide-react";
 import BookPanel from "./BookPanel";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useBookPanel } from "@/contexts/BookPanelContext";
+import React, { useCallback } from "react";
 
 const DashboardNavbar = () => {
   const pathname = usePathname();
   const title = getPageTitle(pathname);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (e.target.value) {
+        params.set("q", e.target.value);
+      } else {
+        params.delete("q");
+      }
+      router.replace(`${pathname}?${params.toString()}`);
+    },
+
+    [pathname, router, searchParams],
+  );
+
   const { isOpen, openForCreate, close, editingBook, isSaving } =
     useBookPanel();
+    
   const formRef = useOutsideClick<HTMLDivElement>(
     isOpen,
     () => close(),
@@ -96,6 +116,7 @@ const DashboardNavbar = () => {
                     name="search-book"
                     placeholder="Search book"
                     className="focus:outline-none w-full"
+                    onChange={handleSearch}
                   />
                 </div>
               </form>
