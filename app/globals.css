@@ -52,15 +52,22 @@ body {
   --color-card: var(--card-background);
 
   --font-syne: var(--font-syne);
+
+  --animate-sweep: sweep 1s linear infinite;
 }
 
-
-.chart-scroll::-webkit-scrollbar{
+.chart-scroll::-webkit-scrollbar {
   height: 5px;
   width: 4px;
 }
-.chart-scroll::-webkit-scrollbar-thumb{
+.chart-scroll::-webkit-scrollbar-thumb {
   background-color: #afafaf;
   border-radius: 99px;
   cursor: pointer;
+}
+
+@keyframes sweep {
+  to {
+    background-position: 1370px 0;
+  }
 }

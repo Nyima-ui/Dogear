@@ -8,10 +8,12 @@ const OverviewCards = ({ books }: { books: IBookDocument[] }) => {
   const currentlyReading = books?.filter((b) => b.status === "Reading");
   const finishedReading = books?.filter((b) => b.status === "Finished");
 
+  const ratedBooks = finishedReading.filter((b) => b.rating);
+
   const averageRating =
-    finishedReading.length > 0
-      ? finishedReading.reduce((sum, b) => sum + (b.rating ?? 0), 0) /
-        finishedReading.filter((b) => b.rating).length
+    ratedBooks.length > 0
+      ? ratedBooks.reduce((sum, b) => sum + (b.rating ?? 0), 0) /
+        ratedBooks.length
       : 0;
 
   return (
