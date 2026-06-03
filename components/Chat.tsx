@@ -51,8 +51,8 @@ const ChatHeader = ({ pdf, status }: ChatHeaderProps) => {
       </div>
       <div className="flex flex-col justify-between">
         <div>
-          <h1 className="text-[25px] leading-none">{pdf.title}</h1>
-          <p className="mt-1">By {pdf.author}</p>
+          <h1 className="text-[25px] leading-none line-clamp-1">{pdf.title}</h1>
+          <p className="mt-1 line-clamp-1">By {pdf.author}</p>
         </div>
 
         <div className="flex items-center gap-2.5 text-sm">
@@ -93,7 +93,7 @@ const Chat = ({ pdf }: ChatProps) => {
     if (!el) return;
 
     const distanceFromButton = el.scrollHeight - el.scrollTop - el.clientHeight;
-    isUserScrolledUp.current = distanceFromButton > 100;
+    isUserScrolledUp.current = distanceFromButton > 80;
   };
 
   const getStatusDisplay = () => {
@@ -158,7 +158,7 @@ const Chat = ({ pdf }: ChatProps) => {
       </ul>
 
       <form className="border border-primary/30 rounded-md bg-primary-300 mt-10 px-2 py-3 flex items-center justify-between absolute bottom-0 w-full">
-        <p className="text-foreground/60">Ask anything about: {pdf.title}</p>
+        <p className="text-foreground/60 line-clamp-1">Ask anything about: {pdf.title}</p>
         <div className="space-x-3 space-y-3">
           {onCall ? (
             <button

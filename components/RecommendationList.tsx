@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 const RecommendationList = ({ books }: { books: EnrichedBook[] }) => {
   const [selected, setSelected] = useState<EnrichedBook>(books[0]);
   const [expanded, setExpanded] = useState(false);
-  const [isDecriptionOpen, setIsDecriptionOpen] = useState(true);
+  const [isDecriptionOpen, setIsDecriptionOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
   const router = useRouter();

@@ -61,7 +61,7 @@ const SidebarNav = () => {
           className="mt-73 relative group p-1 rounded-md hover:bg-primary-600 inline-block cursor-pointer"
           onClick={() => signOut({ redirectUrl: "/" })}
         >
-          <LogOut strokeWidth={1.7} color="#363636" size={22}/>
+          <LogOut strokeWidth={1.7} color="#363636" size={22} />
           <span className="absolute px-1.5 py-1 rounded-md bg-[#414241] text-background text-xs top-1.5 left-[calc(100%+5px)] text-nowrap hidden group-hover:block z-30">
             Logout
           </span>
@@ -103,7 +103,7 @@ const SidebarNav = () => {
         >
           <div
             className={cn(
-              `bg-background w-full px-2 h-screen space-y-8 py-3 transition-opacity duration-150 ease-linear`,
+              `bg-background w-full px-2 h-screen space-y-8 py-3 transition-opacity duration-150 ease-linear flex flex-col`,
             )}
           >
             <div
@@ -138,6 +138,7 @@ const SidebarNav = () => {
                 <Link
                   href={"/dashboard/log"}
                   className="flex items-center gap-2 hover:bg-primary-600"
+                  onClick={() => setOpen(false)}
                 >
                   <span className="p-1 rounded-md inline-block">
                     <Table2 strokeWidth={1.7} color="#363636" />
@@ -150,6 +151,7 @@ const SidebarNav = () => {
                 <Link
                   href={"/reader/uploads"}
                   className="flex items-center gap-2 hover:bg-primary-600"
+                  onClick={() => setOpen(false)}
                 >
                   <span className="p-1 rounded-md inline-block">
                     <Sparkles strokeWidth={1.7} color="#363636" />
@@ -158,6 +160,16 @@ const SidebarNav = () => {
                 </Link>
               </li>
             </ul>
+
+            <button
+              className="flex items-center gap-2 hover:bg-primary-600 mt-auto"
+              onClick={() => signOut({ redirectUrl: "/" })}
+            >
+              <span className="p-1 rounded-md inline-block">
+                <LogOut strokeWidth={1.7} color="#363636" size={22} />
+              </span>
+              <span className="text-nowrap">Logout</span>
+            </button>
           </div>
         </div>
       </nav>

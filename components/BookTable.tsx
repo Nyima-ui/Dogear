@@ -99,7 +99,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
     max-h-148.25 max-md:max-h-145">
       {selectedIds.size > 0 && (
         <button
-          className="flex items-center text-xs cursor-pointer border border-black/10 p-2 gap-1.5 rounded-md my-2 hover:bg-foreground/5"
+          className="flex items-center text-xs cursor-pointer border border-black/10 p-2 gap-1.5 rounded-md my-2 hover:bg-foreground/5 sticky left-0"
           onClick={confirmDelete}
         >
           <span>
@@ -210,7 +210,7 @@ const BookTable = ({ books }: { books: IBookDocument[] }) => {
                 <div className="group relative px-1">
                   <span className="line-clamp-1 ">{b.title}</span>
                   <button
-                    className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm"
+                    className="items-center cursor-pointer border border-black/10 rounded-md py-0.5 px-1 gap-0.75 absolute top-0.5 right-4 bg-background hidden group-hover:flex shadow-sm max-sm:flex"
                     onClick={() => openForEdit(b)}
                   >
                     <PanelLeft

@@ -4,6 +4,7 @@ import Vapi from "@vapi-ai/web";
 import { useRef, useState, useEffect } from "react";
 import { CallStatus, Messages, VapiMessage } from "@/types";
 import { voiceOptions } from "@/lib/constants";
+import { toast } from "sonner";
 
 const VAPI_API_KEY = process.env.NEXT_PUBLIC_VAPI_API_KEY!;
 const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_KEY!;
@@ -61,6 +62,7 @@ export const useVapi = (pdf: IPdfDocument) => {
 
     const handleCallEnd = () => {
       setStatus("idle");
+      toast("Chat ended. Come back anytime!");
     };
 
     const handleSpeechStart = () => {
@@ -102,7 +104,7 @@ export const useVapi = (pdf: IPdfDocument) => {
           pdfId: pdf._id,
         },
         voice: {
-          provider: "openai",
+          provider: "vapi",
           voiceId: selectedVoice.id,
         },
         firstMessage: `Hi! I'm your reading buddy. What would you like to discuss about ${pdf.title} by ${pdf.author}`,

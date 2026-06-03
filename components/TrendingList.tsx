@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 const TrendingList = ({ books }: { books: TrendingBook[] }) => {
   const [selected, setSelected] = useState<TrendingBook>(books[0]);
   const [expanded, setExpanded] = useState(false);
-  const [isDecriptionOpen, setIsDecriptionOpen] = useState(true);
+  const [isDecriptionOpen, setIsDecriptionOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
   const router = useRouter();

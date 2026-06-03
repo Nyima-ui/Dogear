@@ -91,34 +91,65 @@ export const MONTHS = [
   "Dec",
 ];
 
+// export const voiceOptions: Record<string, VoiceOptions> = {
+//   elliot: {
+//     id: "onyx",           
+//     provider: "openai",
+//     name: "Elliot",    
+//     gender: "Male",
+//     description: "Confident & clear",
+//   },
+//   nova: {
+//     id: "nova",
+//     provider: "openai",
+//     name: "Nova",
+//     gender: "Female",
+//     description: "Friendly & warm",
+//   },
+//   shimmer: {
+//     id: "shimmer",
+//     provider: "openai",
+//     name: "Shimmer",
+//     gender: "Female",
+//     description: "Calm & natural",
+//   },
+//   echo: {
+//     id: "echo",
+//     provider: "openai",
+//     name: "Echo",
+//     gender: "Male",
+//     description: "Relaxed & easy to listen to",
+//   },
+// };
+
 export const voiceOptions: Record<string, VoiceOptions> = {
   elliot: {
-    id: "onyx",           
-    provider: "openai",
-    name: "Elliot",    
+    id: "Elliot",
+    provider: "vapi",
+    name: "Elliot",
     gender: "Male",
-    description: "Confident & clear",
+    description: "Calm & collected",
   },
-  nova: {
-    id: "nova",
-    provider: "openai",
-    name: "Nova",
-    gender: "Female",
-    description: "Friendly & warm",
-  },
-  shimmer: {
-    id: "shimmer",
-    provider: "openai",
-    name: "Shimmer",
-    gender: "Female",
-    description: "Calm & natural",
-  },
-  echo: {
-    id: "echo",
-    provider: "openai",
-    name: "Echo",
+  godfrey: {
+    id: "Godfrey",
+    provider: "vapi",
+    name: "Godfrey",
     gender: "Male",
-    description: "Relaxed & easy to listen to",
+    description: "Young & professional",
+  },
+  naina: {
+    id: "Naina",
+    provider: "vapi",
+    name: "Naina",
+    gender: "Female",
+    description: "Warm & natural",
+  },
+  savannah: {
+    id: "Savannah",
+    provider: "vapi",
+    name: "Savannah",
+    gender: "Female",
+    description: "Friendly & upbeat",
   },
 };
 

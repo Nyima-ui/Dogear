@@ -281,7 +281,7 @@ const PdfUploadForm = () => {
                 <p>{value.name}</p>
               </div>
               <p className="text-sm text-foreground/60 pl-5 leading-tight mt-1 select-none">
-                Relaxed & easy to listen to
+                {value.description}
               </p>
             </label>
           ))}
