@@ -23,6 +23,18 @@ export const metadata: Metadata = {
   title: "Dogear",
   description:
     "Your personal reading journal. Log books, track your progress, write reviews, and get AI-powered recommendations.",
+  openGraph: {
+    title: "Dogear",
+    description:
+      "Your personal reading journal. Log books, track your progress, write reviews, and get AI-powered recommendations.",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
