@@ -5,9 +5,9 @@ import Link from "next/link";
 
 const PdfUploadCards = ({ pdf }: { pdf: IPdfDocument }) => {
   return (
-    <li className="max-w-44.5 hover:-translate-y-0.5 transition-all duration-200 ease-in hover:drop-shadow-md">
+    <li className="max-w-44.5">
       <Link href={`/reader/chat/${pdf.slug}`}>
-        <div className="p-6 max-sm:p-4 rounded-md bg-primary-400">
+        <div className="p-6 max-sm:p-4 rounded-lg bg-primary-400 hover:bg-primary-500 transition-colors duration-200 ease-in">
           {pdf.coverUrl ? (
             <Image
               width={130}

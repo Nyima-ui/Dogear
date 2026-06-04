@@ -52,9 +52,9 @@ const DashboardNavbar = () => {
                 <Link
                   href="/dashboard/log"
                   className={cn(
-                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm`,
+                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm hover:opacity-70`,
                     title === "My library" &&
-                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium",
+                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium hover:opacity-100",
                   )}
                 >
                   Tracker
@@ -64,9 +64,9 @@ const DashboardNavbar = () => {
                 <Link
                   href="/dashboard/discover"
                   className={cn(
-                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm`,
+                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm hover:opacity-70 transition-opacity duration-100 ease-in`,
                     title === "For you" &&
-                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium",
+                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium hover:opacity-100",
                   )}
                 >
                   Recommendations
@@ -76,9 +76,9 @@ const DashboardNavbar = () => {
                 <Link
                   href="/dashboard/trending"
                   className={cn(
-                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm`,
+                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm hover:opacity-70 transition-opacity duration-100 ease-in`,
                     title === "Trending books" &&
-                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium",
+                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium hover:opacity-100",
                   )}
                 >
                   Trending
@@ -88,9 +88,9 @@ const DashboardNavbar = () => {
                 <Link
                   href="/dashboard/overview"
                   className={cn(
-                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm`,
+                    `px-2.5 py-1 bg-background inline-block max-sm:text-sm hover:opacity-70 transition-opacity duration-100 ease-in`,
                     title === "Reading overview" &&
-                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium",
+                      "shadow-[0px_2px_3px_1px] shadow-primary/25 rounded-2xl font-medium hover:opacity-100",
                   )}
                 >
                   Dashboard

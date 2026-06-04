@@ -6,6 +6,8 @@ interface LoadingModalProps {
   stageLabel?: string;
 }
 
+
+
 const LoadingModal = ({
   title,
   progress = 0,
@@ -30,9 +32,9 @@ const LoadingModal = ({
         </p>
 
         <div className="mt-9">
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-foreground/70">{title}</p>
-            <Loader className="text-foreground/70 animate-spin" size={16} />
+          <div className="flex justify-between items-center gap-5">
+            <p className="text-sm text-foreground/70 line-clamp-1">{title}</p>
+            <Loader className="text-foreground/70 animate-spin shrink-0" size={16} />
           </div>
 
           <div className="h-1 mt-2 rounded-md bg-foreground/20 overflow-hidden transition-all duration-300 ease-out">

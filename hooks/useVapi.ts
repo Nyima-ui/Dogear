@@ -105,7 +105,7 @@ export const useVapi = (pdf: IPdfDocument) => {
         },
         voice: {
           provider: "vapi",
-          voiceId: selectedVoice.id,
+          voiceId: selectedVoice.id as any,
         },
         firstMessage: `Hi! I'm your reading buddy. What would you like to discuss about ${pdf.title} by ${pdf.author}`,
       });

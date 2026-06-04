@@ -54,6 +54,18 @@ body {
   --font-syne: var(--font-syne);
 
   --animate-sweep: sweep 1s linear infinite;
+
+  --animate-pulse: pulse 2.3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.15;
+    }
+  }
 }
 
 .chart-scroll::-webkit-scrollbar {
